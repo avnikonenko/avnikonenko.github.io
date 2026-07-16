@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-label="Schematic StreaMD workflow diagram">
+  <rect width="960" height="520" rx="18" fill="#f6f8fb"/>
+  <g font-family="Arial, sans-serif" font-size="18" fill="#17324d">
+    <text x="48" y="58" font-size="30" font-weight="700">StreaMD workflow schematic</text>
+    <g fill="#ffffff" stroke="#bfd0dc" stroke-width="2">
+      <rect x="55" y="110" width="175" height="95" rx="12"/>
+      <rect x="285" y="110" width="175" height="95" rx="12"/>
+      <rect x="515" y="110" width="175" height="95" rx="12"/>
+      <rect x="745" y="110" width="160" height="95" rx="12"/>
+      <rect x="165" y="305" width="190" height="95" rx="12"/>
+      <rect x="415" y="305" width="190" height="95" rx="12"/>
+      <rect x="665" y="305" width="190" height="95" rx="12"/>
+    </g>
+    <g font-weight="700">
+      <text x="86" y="150">Input complex</text>
+      <text x="313" y="150">Preparation</text>
+      <text x="552" y="150">Simulation</text>
+      <text x="777" y="150">Restarts</text>
+      <text x="202" y="346">Analysis</text>
+      <text x="456" y="346">Free energy</text>
+      <text x="705" y="346">Reports</text>
+    </g>
+    <g font-size="14" fill="#426176">
+      <text x="82" y="178">protein, ligand, cofactors</text>
+      <text x="313" y="178">topology, solvation</text>
+      <text x="552" y="178">GROMACS replicas</text>
+      <text x="777" y="178">checkpoints, HPC</text>
+      <text x="202" y="374">RMSD, RMSF, ProLIF</text>
+      <text x="456" y="374">MM/GBSA, MM/PBSA</text>
+      <text x="705" y="374">reproducible outputs</text>
+    </g>
+  </g>
+  <g stroke="#49a078" stroke-width="4" fill="none" marker-end="url(#arrow)">
+    <path d="M230 158h55"/>
+    <path d="M460 158h55"/>
+    <path d="M690 158h55"/>
+    <path d="M595 205 330 305"/>
+    <path d="M595 205 510 305"/>
+    <path d="M595 205 725 305"/>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2 2 10 6 2 10Z" fill="#49a078"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,32 @@
+---
+import type { Project } from "@data/types";
+import { withBase } from "@utils/paths";
+import TagList from "./TagList.astro";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<article class="card project-card">
+  {
+    project.image && (
+      <img
+        src={withBase(project.image)}
+        alt={project.imageAlt ?? ""}
+        width="960"
+        height="520"
+        loading="lazy"
+      />
+    )
+  }
+  <div class="card__body">
+    <h3>
+      <a href={withBase(`/projects/${project.slug}/`)}>{project.title}</a>
+    </h3>
+    <p>{project.shortSummary}</p>
+    <TagList tags={project.tags} />
+  </div>
+</article>

@@ -1,0 +1,87 @@
+---
+import ExperienceTimeline from "@components/ExperienceTimeline.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { education } from "@data/education";
+import { experience } from "@data/experience";
+import { conferences } from "@data/conferences";
+import ExternalLink from "@components/ExternalLink.astro";
+---
+
+<BaseLayout
+  title="Experience"
+  path="/experience/"
+  description="Experience, education, and selected presentations for Aleksandra Ivanova."
+>
+  <section class="page-section">
+    <SectionHeading
+      eyebrow="Experience"
+      title="Research and professional experience"
+      intro="Chronological experience with conservative descriptions and verification markers where details are incomplete."
+    />
+    <ExperienceTimeline items={experience} />
+  </section>
+
+  <section class="page-section">
+    <SectionHeading eyebrow="Education" title="Education" />
+    <div class="grid grid--2">
+      {
+        education.map((item) => (
+          <article class="card">
+            <div class="card__body">
+              <p class="eyebrow">
+                {item.start}-{item.end}
+              </p>
+              <h3>{item.degree}</h3>
+              <p class="organization">{item.institution}</p>
+              {item.location && <p class="muted">{item.location}</p>}
+              {item.thesis && (
+                <p>
+                  <strong>Thesis:</strong> {item.thesis}
+                </p>
+              )}
+              {item.status && <p>{item.status}</p>}
+              {item.notes && (
+                <ul>
+                  {item.notes.map((note) => (
+                    <li>{note}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="page-section">
+    <SectionHeading
+      eyebrow="Presentations"
+      title="Selected conferences and presentations"
+      intro="Exact titles, dates, formats, and links are marked for confirmation before public release."
+    />
+    <div class="grid grid--2">
+      {
+        conferences.map((item) => (
+          <article class="card">
+            <div class="card__body">
+              <p class="eyebrow">
+                {item.year} · {item.location}
+              </p>
+              <h3>{item.event}</h3>
+              <p>{item.title}</p>
+              <p class="muted">{item.type}</p>
+              {item.note && <p>{item.note}</p>}
+              <div class="inline-actions">
+                {item.links.map((link) => (
+                  <ExternalLink href={link.href} label={link.label} />
+                ))}
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="420" viewBox="0 0 420 420" role="img" aria-label="Initials placeholder for Aleksandra Ivanova">
+  <rect width="420" height="420" rx="48" fill="#e7eef4"/>
+  <path d="M72 312 175 92h58l104 220h-57l-21-48h-112l-20 48H72Zm94-94h74l-37-86-37 86Z" fill="#17324d"/>
+  <g fill="#49a078">
+    <circle cx="320" cy="105" r="18"/>
+    <circle cx="355" cy="168" r="13"/>
+    <circle cx="292" cy="188" r="11"/>
+  </g>
+  <g stroke="#49a078" stroke-width="8" stroke-linecap="round">
+    <path d="M331 120 348 154M310 121 297 176"/>
+  </g>
+</svg>

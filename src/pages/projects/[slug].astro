@@ -1,0 +1,159 @@
+---
+import ExternalLink from "@components/ExternalLink.astro";
+import TagList from "@components/TagList.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { projects } from "@data/projects";
+import type { Project } from "@data/types";
+import { withBase } from "@utils/paths";
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  name: project.title,
+  description: project.shortSummary,
+  programmingLanguage: project.methodsAndTechnologies.filter((item) =>
+    ["Python", "Bash", "TypeScript"].includes(item),
+  ),
+};
+---
+
+<BaseLayout
+  title={project.title}
+  path={`/projects/${project.slug}/`}
+  description={project.shortSummary}
+  structuredData={structuredData}
+>
+  <section class="page-section project-hero">
+    <p class="eyebrow">Project</p>
+    <h1>{project.title}</h1>
+    <p class="hero__headline">{project.shortSummary}</p>
+    <TagList tags={project.tags} />
+    {
+      project.image && (
+        <img
+          src={withBase(project.image)}
+          alt={project.imageAlt ?? ""}
+          width="960"
+          height="520"
+        />
+      )
+    }
+  </section>
+
+  <section class="page-section detail-grid">
+    <aside class="card">
+      <div class="card__body">
+        <h2>Code and documentation</h2>
+        <div class="inline-actions">
+          {
+            project.githubRepository && (
+              <ExternalLink
+                href={project.githubRepository}
+                label="GitHub repository"
+              />
+            )
+          }
+          {
+            project.documentationLink && (
+              <ExternalLink
+                href={project.documentationLink}
+                label="Documentation"
+              />
+            )
+          }
+          {
+            project.conferencePresentationLink && (
+              <ExternalLink
+                href={project.conferencePresentationLink}
+                label="Presentation"
+              />
+            )
+          }
+        </div>
+        <h3>Software and technologies</h3>
+        <ul class="detail-list">
+          {project.methodsAndTechnologies.map((method) => <li>{method}</li>)}
+        </ul>
+      </div>
+    </aside>
+
+    <div class="grid">
+      <section class="card">
+        <div class="card__body">
+          <h2>Scientific problem</h2><p>{project.scientificProblem}</p>
+        </div>
+      </section>
+      <section class="card">
+        <div class="card__body">
+          <h2>Motivation</h2><p>{project.motivation}</p>
+        </div>
+      </section>
+      <section class="card">
+        <div class="card__body">
+          <h2>My role</h2>
+          <ul class="detail-list">
+            {project.myRole.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </section>
+      <section class="card">
+        <div class="card__body">
+          <h2>Methodology</h2>
+          <ul class="detail-list">
+            {project.methodology.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </section>
+      <section class="card">
+        <div class="card__body">
+          <h2>Validation or results</h2>
+          <ul class="detail-list">
+            {project.outputsOrValidation.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </section>
+      <section class="card">
+        <div class="card__body">
+          <h2>Limitations</h2>
+          <ul class="detail-list">
+            {project.limitations.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </section>
+      <section class="card">
+        <div class="card__body">
+          <h2>Publications and presentations</h2>
+          {
+            project.publicationLinks.length > 0 ? (
+              <div class="inline-actions">
+                {project.publicationLinks.map((link) => (
+                  <ExternalLink href={link.href} label={link.label} />
+                ))}
+              </div>
+            ) : (
+              <p class="muted">No public link added yet.</p>
+            )
+          }
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <section class="page-section page-section--tight">
+    <a class="button button--secondary" href={withBase("/projects/")}
+      >Back to projects</a
+    >
+  </section>
+</BaseLayout>

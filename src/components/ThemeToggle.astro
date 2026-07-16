@@ -1,0 +1,30 @@
+<button
+  class="theme-toggle"
+  type="button"
+  aria-label="Switch color theme"
+  title="Switch color theme"
+>
+  <span class="theme-toggle__icon" aria-hidden="true"></span>
+</button>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>(".theme-toggle");
+
+  function updateThemeLabel() {
+    const theme = document.documentElement.dataset.theme || "light";
+    button?.setAttribute(
+      "aria-label",
+      `Switch color theme. Current theme: ${theme}.`,
+    );
+  }
+
+  button?.addEventListener("click", () => {
+    const current = document.documentElement.dataset.theme || "light";
+    const next = current === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem("theme", next);
+    updateThemeLabel();
+  });
+
+  updateThemeLabel();
+</script>

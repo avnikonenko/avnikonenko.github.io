@@ -1,0 +1,63 @@
+---
+import Callout from "@components/Callout.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import SkillGroup from "@components/SkillGroup.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { profile } from "@data/profile";
+import { skills } from "@data/skills";
+---
+
+<BaseLayout
+  title="About"
+  path="/about/"
+  description="Professional biography and research interests for Aleksandra Ivanova."
+>
+  <section class="page-section">
+    <SectionHeading
+      eyebrow="About"
+      title="Computational chemistry, cheminformatics, and reproducible software"
+      intro={profile.shortProfile}
+    />
+    <div class="grid">
+      {profile.biography.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </section>
+
+  <section class="page-section">
+    <SectionHeading
+      title="Approach to scientific work"
+      intro="The site intentionally separates applied methods, software capabilities, validation, and limitations."
+    />
+    <div class="grid grid--2">
+      <section class="card">
+        <div class="card__body">
+          <h3>Work principles</h3>
+          <ul class="detail-list">
+            {profile.workPrinciples.map((principle) => <li>{principle}</li>)}
+          </ul>
+        </div>
+      </section>
+      <section class="card">
+        <div class="card__body">
+          <h3>Career objectives</h3>
+          <ul class="detail-list">
+            {profile.careerObjectives.map((objective) => <li>{objective}</li>)}
+          </ul>
+        </div>
+      </section>
+    </div>
+    <Callout title="Content policy">
+      <p>
+        Unverified citations, links, metrics, and employment details are marked
+        with [ADD OR VERIFY: ...] rather than invented.
+      </p>
+    </Callout>
+  </section>
+
+  <section class="page-section">
+    <SectionHeading title="Research interests" />
+    <div class="grid grid--3">
+      {skills.map((group) => <SkillGroup group={group} />)}
+    </div>
+  </section>
+</BaseLayout>

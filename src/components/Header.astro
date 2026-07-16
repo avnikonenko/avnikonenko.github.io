@@ -1,0 +1,45 @@
+---
+import { navigation } from "@data/site";
+import { withBase } from "@utils/paths";
+import ThemeToggle from "./ThemeToggle.astro";
+---
+
+<header class="site-header">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="site-header__inner">
+    <a class="brand" href={withBase("/")} aria-label="Aleksandra Ivanova home">
+      <span class="brand__mark" aria-hidden="true">AI</span>
+      <span class="brand__text">Aleksandra Ivanova</span>
+    </a>
+    <div class="site-header__actions">
+      <ThemeToggle />
+      <button
+        class="nav-toggle"
+        type="button"
+        aria-label="Open main menu"
+        aria-expanded="false"
+        aria-controls="site-menu"
+      >
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+    <nav class="primary-nav" id="site-menu" aria-label="Primary">
+      {navigation.map((item) => <a href={withBase(item.href)}>{item.label}</a>)}
+    </nav>
+  </div>
+</header>
+
+<script>
+  const navToggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
+  const header = document.querySelector<HTMLElement>(".site-header");
+
+  navToggle?.addEventListener("click", () => {
+    const isOpen = navToggle.getAttribute("aria-expanded") === "true";
+    navToggle.setAttribute("aria-expanded", String(!isOpen));
+    navToggle.setAttribute(
+      "aria-label",
+      isOpen ? "Open main menu" : "Close main menu",
+    );
+    header?.toggleAttribute("data-nav-open", !isOpen);
+  });
+</script>

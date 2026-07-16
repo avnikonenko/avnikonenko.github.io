@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-label="Schematic conformer ensemble and multiple-instance learning QSAR diagram">
+  <rect width="960" height="520" rx="18" fill="#f6f8fb"/>
+  <text x="48" y="58" fill="#17324d" font-family="Arial, sans-serif" font-size="30" font-weight="700">Conformer ensembles for MIL-QSAR</text>
+  <g fill="#ffffff" stroke="#bfd0dc" stroke-width="2">
+    <rect x="58" y="115" width="220" height="275" rx="14"/>
+    <rect x="370" y="115" width="220" height="275" rx="14"/>
+    <rect x="682" y="115" width="220" height="275" rx="14"/>
+  </g>
+  <g font-family="Arial, sans-serif" text-anchor="middle">
+    <g fill="#17324d" font-size="20" font-weight="700">
+      <text x="168" y="150">Molecule</text>
+      <text x="480" y="150">Conformer bag</text>
+      <text x="792" y="150">QSAR model</text>
+    </g>
+    <g fill="#426176" font-size="15">
+      <text x="168" y="360">2D structure and labels</text>
+      <text x="480" y="360">3D pharmacophore descriptors</text>
+      <text x="792" y="360">MIL-max / MIL-k-means</text>
+    </g>
+  </g>
+  <g stroke="#49a078" stroke-width="4" fill="none">
+    <circle cx="138" cy="242" r="16"/><circle cx="198" cy="214" r="16"/><circle cx="205" cy="286" r="16"/><path d="M153 235 183 221M199 230 204 270M150 250 190 278"/>
+    <circle cx="438" cy="215" r="13"/><circle cx="492" cy="236" r="13"/><circle cx="512" cy="290" r="13"/><path d="M450 220 480 232M498 249 508 276"/>
+    <circle cx="454" cy="290" r="13"/><circle cx="516" cy="205" r="13"/><circle cx="434" cy="255" r="13"/>
+  </g>
+  <g fill="#49a078">
+    <rect x="735" y="210" width="115" height="22" rx="4"/>
+    <rect x="735" y="250" width="75" height="22" rx="4"/>
+    <rect x="735" y="290" width="140" height="22" rx="4"/>
+  </g>
+  <g stroke="#49a078" stroke-width="4" fill="none" marker-end="url(#arrow)">
+    <path d="M278 252h92"/>
+    <path d="M590 252h92"/>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2 2 10 6 2 10Z" fill="#49a078"/>
+    </marker>
+  </defs>
+</svg>

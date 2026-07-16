@@ -1,0 +1,30 @@
+---
+import { profile } from "@data/profile";
+import { siteConfig } from "@data/site";
+import { withBase } from "@utils/paths";
+import SocialLinks from "./SocialLinks.astro";
+---
+
+<section class="hero">
+  <div class="hero__content">
+    <p class="eyebrow">{siteConfig.location}</p>
+    <h1>{profile.name}</h1>
+    <p class="hero__headline">{siteConfig.headline}</p>
+    <p>{profile.shortProfile}</p>
+    <p class="status">{profile.currentStatus}</p>
+    <div class="hero__actions" aria-label="Primary actions">
+      <a class="button" href={withBase("/projects/")}>View projects</a>
+      <a class="button button--secondary" href={withBase("/cv/")}>View CV</a>
+      <a class="button button--ghost" href={withBase("/contact/")}>Contact</a>
+    </div>
+    <SocialLinks />
+  </div>
+  <div class="hero__visual" aria-label="Profile placeholder">
+    <img
+      src={withBase("/images/profile-placeholder.svg")}
+      width="420"
+      height="420"
+      alt="Initials placeholder for Aleksandra Ivanova"
+    />
+  </div>
+</section>

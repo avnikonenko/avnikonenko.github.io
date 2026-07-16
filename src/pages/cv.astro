@@ -1,0 +1,162 @@
+---
+import ExternalLink from "@components/ExternalLink.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import SkillGroup from "@components/SkillGroup.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { education } from "@data/education";
+import { experience } from "@data/experience";
+import { projects } from "@data/projects";
+import { publications } from "@data/publications";
+import { skills } from "@data/skills";
+import { conferences } from "@data/conferences";
+import { siteConfig } from "@data/site";
+import { withBase } from "@utils/paths";
+---
+
+<BaseLayout
+  title="CV"
+  path="/cv/"
+  description="HTML CV for Aleksandra Ivanova with a PDF download link."
+>
+  <section class="page-section">
+    <SectionHeading
+      eyebrow="CV"
+      title="Curriculum vitae"
+      intro="Concise HTML CV with print-friendly styles and a local PDF asset."
+    />
+    <div class="inline-actions">
+      <a class="button" href={withBase(siteConfig.cvPdf)} download
+        >Download CV PDF</a
+      >
+      <button class="button button--secondary" type="button" data-print-cv
+        >Print HTML CV</button
+      >
+    </div>
+    <p class="status">
+      PDF file path: <code>public/Aleksandra_Ivanova_CV.pdf</code>. Replace this
+      file with the final public CV before deployment.
+    </p>
+  </section>
+
+  <section class="page-section page-section--tight">
+    <h1>{siteConfig.name}</h1>
+    <p class="hero__headline">{siteConfig.title}</p>
+    <p>{siteConfig.location}</p>
+    <p>{siteConfig.availability}</p>
+  </section>
+
+  <section class="page-section">
+    <SectionHeading title="Experience" />
+    <div class="grid">
+      {
+        experience.map((item) => (
+          <article class="card">
+            <div class="card__body">
+              <>
+                <h3>{item.role}</h3>
+                <p class="organization">{item.organization}</p>
+                <p>
+                  {item.start}-{item.end}
+                </p>
+                <ul>
+                  {item.bullets.map((bullet) => (
+                    <li>{bullet}</li>
+                  ))}
+                </ul>
+              </>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="page-section">
+    <SectionHeading title="Education" />
+    <div class="grid grid--2">
+      {
+        education.map((item) => (
+          <article class="card">
+            <div class="card__body">
+              <p>
+                {item.start}-{item.end}
+              </p>
+              {item.thesis && (
+                <p>
+                  <strong>Thesis:</strong> {item.thesis}
+                </p>
+              )}
+              {item.status && <p>{item.status}</p>}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="page-section">
+    <SectionHeading title="Projects" />
+    <ul class="detail-list">
+      {
+        projects
+          .filter((project) => project.featured)
+          .map((project) => (
+            <li>
+              <strong>{project.title}:</strong> {project.shortSummary}
+            </li>
+          ))
+      }
+    </ul>
+  </section>
+
+  <section class="page-section">
+    <SectionHeading title="Publications" />
+    <ul class="detail-list">
+      {
+        publications.map((publication) => (
+          <li>
+            {publication.citationText ??
+              `${publication.authors}. ${publication.title}. ${publication.venue}. ${publication.year}.`}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="page-section">
+    <SectionHeading title="Skills" />
+    <div class="grid grid--2">
+      {skills.map((group) => <SkillGroup group={group} />)}
+    </div>
+  </section>
+
+  <section class="page-section">
+    <SectionHeading title="Conferences" />
+    <ul class="detail-list">
+      {
+        conferences.map((item) => (
+          <li>
+            {item.event}, {item.location}, {item.year}: {item.title}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="page-section">
+    <SectionHeading title="External profiles" />
+    <div class="inline-actions">
+      {
+        siteConfig.socialLinks.map((link) => (
+          <ExternalLink href={link.href} label={link.label} />
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  document
+    .querySelector("[data-print-cv]")
+    ?.addEventListener("click", () => window.print());
+</script>

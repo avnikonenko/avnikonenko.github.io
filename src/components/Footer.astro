@@ -1,0 +1,22 @@
+---
+import { siteConfig, navigation } from "@data/site";
+import { withBase } from "@utils/paths";
+import SocialLinks from "./SocialLinks.astro";
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div>
+      <p class="footer-name">{siteConfig.name}</p>
+      <p>{siteConfig.title}</p>
+      <p class="muted">{siteConfig.location}</p>
+    </div>
+    <nav class="footer-nav" aria-label="Footer">
+      {navigation.map((item) => <a href={withBase(item.href)}>{item.label}</a>)}
+    </nav>
+    <SocialLinks compact />
+  </div>
+  <p class="site-footer__note">
+    Static portfolio. No analytics, tracking pixels, backend, or contact form.
+  </p>
+</footer>

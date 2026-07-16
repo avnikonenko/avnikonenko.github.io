@@ -1,0 +1,33 @@
+---
+import { siteConfig } from "@data/site";
+import ExternalLink from "./ExternalLink.astro";
+import { isPlaceholder } from "@utils/paths";
+
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+const visibleLinks = siteConfig.socialLinks.filter(
+  (link) => !isPlaceholder(link.href),
+);
+---
+
+<ul class:list={["social-links", { "social-links--compact": compact }]}>
+  {
+    visibleLinks.map((link) => (
+      <li>
+        <ExternalLink href={link.href} label={link.label} />
+      </li>
+    ))
+  }
+  {
+    siteConfig.emailHref && (
+      <li>
+        <a href={siteConfig.emailHref}>
+          {compact ? "Email" : siteConfig.emailDisplay}
+        </a>
+      </li>
+    )
+  }
+</ul>

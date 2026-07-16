@@ -1,0 +1,32 @@
+---
+import type { ExperienceItem } from "@data/types";
+
+interface Props {
+  items: ExperienceItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<ol class="timeline">
+  {
+    items.map((item) => (
+      <li class="timeline__item">
+        <div class="timeline__date">
+          {item.start}–{item.end}
+        </div>
+        <div class="timeline__content">
+          <h3>{item.role}</h3>
+          <p class="organization">{item.organization}</p>
+          {item.location && <p class="muted">{item.location}</p>}
+          {item.field && <p class="muted">{item.field.join(" · ")}</p>}
+          <ul>
+            {item.bullets.map((bullet) => (
+              <li>{bullet}</li>
+            ))}
+          </ul>
+        </div>
+      </li>
+    ))
+  }
+</ol>

@@ -1,0 +1,117 @@
+---
+import Hero from "@components/Hero.astro";
+import ProjectCard from "@components/ProjectCard.astro";
+import PublicationCard from "@components/PublicationCard.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import SkillGroup from "@components/SkillGroup.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { profile } from "@data/profile";
+import { projects } from "@data/projects";
+import { publications } from "@data/publications";
+import { skills } from "@data/skills";
+import { siteConfig } from "@data/site";
+import { withBase } from "@utils/paths";
+
+const featuredProjects = projects.filter((project) => project.featured);
+const selectedPublications = publications.filter(
+  (publication) => publication.highlighted,
+);
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      name: siteConfig.name,
+      jobTitle: siteConfig.title,
+      url: siteConfig.siteUrl,
+      sameAs: siteConfig.socialLinks
+        .map((link) => link.href)
+        .filter((href) => href.startsWith("https://")),
+      knowsAbout: skills.flatMap((group) => group.skills).slice(0, 25),
+    },
+    {
+      "@type": "WebSite",
+      name: `${siteConfig.name} portfolio`,
+      url: siteConfig.siteUrl,
+      description: siteConfig.description,
+    },
+  ],
+};
+---
+
+<BaseLayout structuredData={structuredData}>
+  <Hero />
+
+  <section class="page-section">
+    <SectionHeading
+      eyebrow="Expertise"
+      title="Scientific computing for molecular design"
+      intro="The portfolio is organized around computational chemistry, cheminformatics, reproducible software, and practical modeling workflows."
+    />
+    <div class="grid grid--3">
+      {skills.slice(0, 3).map((group) => <SkillGroup group={group} />)}
+    </div>
+  </section>
+
+  <section class="page-section">
+    <SectionHeading
+      eyebrow="Projects"
+      title="Featured work"
+      intro="Major projects emphasize automated molecular simulation, de novo design, conformational modeling, and careful validation."
+    />
+    <div class="grid grid--3">
+      {featuredProjects.map((project) => <ProjectCard project={project} />)}
+    </div>
+    <p class="page-section--tight">
+      <a class="button button--secondary" href={withBase("/projects/")}
+        >All projects</a
+      >
+    </p>
+  </section>
+
+  <section class="page-section">
+    <SectionHeading
+      eyebrow="Profile"
+      title="Current scientific positioning"
+      intro={profile.currentStatus}
+    />
+    <div class="grid grid--2">
+      <section class="card">
+        <div class="card__body">
+          <h3>Research interests</h3>
+          <ul class="detail-list">
+            {profile.researchInterests.map((interest) => <li>{interest}</li>)}
+          </ul>
+        </div>
+      </section>
+      <section class="card">
+        <div class="card__body">
+          <h3>Career objectives</h3>
+          <ul class="detail-list">
+            {profile.careerObjectives.map((objective) => <li>{objective}</li>)}
+          </ul>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <SectionHeading
+      eyebrow="Publications"
+      title="Selected publications"
+      intro="Selected entries are rendered from structured data and include verification markers where bibliographic details still need review."
+    />
+    <div class="grid">
+      {
+        selectedPublications.map((publication) => (
+          <PublicationCard publication={publication} />
+        ))
+      }
+    </div>
+    <p class="page-section--tight">
+      <a class="button button--secondary" href={withBase("/publications/")}
+        >Publication list</a
+      >
+    </p>
+  </section>
+</BaseLayout>

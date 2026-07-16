@@ -1,0 +1,116 @@
+---
+import PublicationCard from "@components/PublicationCard.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import SocialLinks from "@components/SocialLinks.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { publications } from "@data/publications";
+
+const years = [
+  ...new Set(publications.map((publication) => publication.year)),
+].sort((a, b) => b - a);
+const types = [
+  ...new Set(publications.map((publication) => publication.publicationType)),
+].sort();
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Publications",
+  itemListElement: publications.map((publication, index) => ({
+    "@type": "ScholarlyArticle",
+    position: index + 1,
+    name: publication.title,
+    author: publication.authors,
+    datePublished: String(publication.year),
+    isPartOf: publication.venue,
+  })),
+};
+---
+
+<BaseLayout
+  title="Publications"
+  path="/publications/"
+  description="Publication list for Aleksandra Ivanova."
+  structuredData={structuredData}
+>
+  <section class="page-section">
+    <SectionHeading
+      eyebrow="Publications"
+      title="Publications"
+      intro="The publication list is data-driven. DOI, BibTeX, and complete citations use explicit placeholders until verified."
+    />
+
+    <div class="filters" aria-label="Publication filters">
+      <label>
+        Year
+        <select data-filter-year>
+          <option value="all">All years</option>
+          {years.map((year) => <option value={year}>{year}</option>)}
+        </select>
+      </label>
+      <label>
+        Type
+        <select data-filter-type>
+          <option value="all">All types</option>
+          {types.map((type) => <option value={type}>{type}</option>)}
+        </select>
+      </label>
+    </div>
+
+    <div class="grid" data-publication-list>
+      {
+        publications.map((publication) => (
+          <PublicationCard publication={publication} />
+        ))
+      }
+    </div>
+
+    <p class="status" data-copy-status aria-live="polite">
+      Citation and BibTeX copy buttons are available for entries with reviewable
+      citation text.
+    </p>
+    <SocialLinks />
+  </section>
+</BaseLayout>
+
+<script>
+  const yearFilter =
+    document.querySelector<HTMLSelectElement>("[data-filter-year]");
+  const typeFilter =
+    document.querySelector<HTMLSelectElement>("[data-filter-type]");
+  const cards = [
+    ...document.querySelectorAll<HTMLElement>("[data-publication-card]"),
+  ];
+  const status = document.querySelector<HTMLElement>("[data-copy-status]");
+
+  function applyFilters() {
+    const year = yearFilter?.value ?? "all";
+    const type = typeFilter?.value ?? "all";
+
+    for (const card of cards) {
+      const matchesYear = year === "all" || card.dataset.year === year;
+      const matchesType = type === "all" || card.dataset.type === type;
+      card.hidden = !(matchesYear && matchesType);
+    }
+  }
+
+  yearFilter?.addEventListener("change", applyFilters);
+  typeFilter?.addEventListener("change", applyFilters);
+
+  document.addEventListener("click", async (event) => {
+    const target =
+      event.target instanceof Element
+        ? event.target.closest<HTMLButtonElement>("[data-copy]")
+        : null;
+    if (!target) return;
+
+    const value = target.dataset.copy ?? "";
+    try {
+      await navigator.clipboard.writeText(value);
+      if (status) status.textContent = "Copied to clipboard.";
+    } catch {
+      if (status)
+        status.textContent =
+          "Clipboard copy failed; select and copy the citation manually.";
+    }
+  });
+</script>

@@ -1,0 +1,53 @@
+---
+import ExternalLink from "@components/ExternalLink.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { siteConfig } from "@data/site";
+---
+
+<BaseLayout
+  title="Contact"
+  path="/contact/"
+  description="Contact information and professional profiles for Aleksandra Ivanova."
+>
+  <section class="page-section">
+    <SectionHeading
+      eyebrow="Contact"
+      title="Contact"
+      intro="Open to appropriate research, postdoctoral, pharmaceutical or biotechnology industry, and scientific-software opportunities."
+    />
+    <div class="grid grid--2">
+      <section class="card">
+        <div class="card__body">
+          <h2>Email</h2>
+          {
+            siteConfig.emailHref ? (
+              <a class="button" href={siteConfig.emailHref}>
+                Email Aleksandra Ivanova
+              </a>
+            ) : (
+              <p class="placeholder">{siteConfig.emailDisplay}</p>
+            )
+          }
+          <p class="muted">
+            No contact form is included because this static site has no backend.
+            Add only a professional email address intended for public use.
+          </p>
+        </div>
+      </section>
+      <section class="card">
+        <div class="card__body">
+          <h2>Profiles</h2>
+          <div class="inline-actions">
+            {
+              siteConfig.socialLinks.map((link) => (
+                <ExternalLink href={link.href} label={link.label} />
+              ))
+            }
+          </div>
+          <p>{siteConfig.availability}</p>
+        </div>
+      </section>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,36 @@
+---
+import ProjectCard from "@components/ProjectCard.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { projects } from "@data/projects";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Scientific software and computational chemistry projects",
+  itemListElement: projects.map((project, index) => ({
+    "@type": "SoftwareSourceCode",
+    position: index + 1,
+    name: project.title,
+    description: project.shortSummary,
+  })),
+};
+---
+
+<BaseLayout
+  title="Projects"
+  path="/projects/"
+  description="Scientific software and computational chemistry projects by Aleksandra Ivanova."
+  structuredData={structuredData}
+>
+  <section class="page-section">
+    <SectionHeading
+      eyebrow="Projects"
+      title="Computational chemistry and scientific software projects"
+      intro="Each project page separates the scientific problem, methodology, validation, limitations, and code or publication links."
+    />
+    <div class="grid grid--2">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,14 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { withBase } from "@utils/paths";
+---
+
+<BaseLayout title="Page not found" path="/404/">
+  <section class="page-section">
+    <h1>Page not found</h1>
+    <p>The requested page is not available.</p>
+    <p>
+      <a class="button button--secondary" href={withBase("/")}>Return home</a>
+    </p>
+  </section>
+</BaseLayout>

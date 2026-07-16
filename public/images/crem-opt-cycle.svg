@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-label="Schematic CReM-opt optimization cycle">
+  <rect width="960" height="520" rx="18" fill="#f6f8fb"/>
+  <text x="48" y="58" fill="#17324d" font-family="Arial, sans-serif" font-size="30" font-weight="700">CReM-opt molecular design cycle</text>
+  <g font-family="Arial, sans-serif" font-size="18" text-anchor="middle">
+    <g fill="#ffffff" stroke="#bfd0dc" stroke-width="2">
+      <circle cx="480" cy="135" r="72"/>
+      <circle cx="680" cy="260" r="72"/>
+      <circle cx="480" cy="385" r="72"/>
+      <circle cx="280" cy="260" r="72"/>
+    </g>
+    <g fill="#17324d" font-weight="700">
+      <text x="480" y="128">Seed</text><text x="480" y="152">molecules</text>
+      <text x="680" y="252">Fragment</text><text x="680" y="276">transforms</text>
+      <text x="480" y="378">Docking and</text><text x="480" y="402">filtering</text>
+      <text x="280" y="252">Selection</text><text x="280" y="276">and analysis</text>
+    </g>
+  </g>
+  <g stroke="#49a078" stroke-width="5" fill="none" marker-end="url(#arrow)">
+    <path d="M540 175 C595 190 640 210 665 232"/>
+    <path d="M665 288 C640 315 595 345 540 365"/>
+    <path d="M420 365 C365 345 320 315 295 288"/>
+    <path d="M295 232 C320 205 365 175 420 155"/>
+  </g>
+  <text x="480" y="475" fill="#426176" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">Schematic only: project pages distinguish validation from predictive claims.</text>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2 2 10 6 2 10Z" fill="#49a078"/>
+    </marker>
+  </defs>
+</svg>

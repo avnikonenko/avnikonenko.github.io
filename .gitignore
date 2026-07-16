@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+playwright-report/
+test-results/
+npm-debug.log*
+/CV_Ivanova.pdf
+/Create a complete professional.txt

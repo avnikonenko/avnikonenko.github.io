@@ -1,0 +1,63 @@
+---
+import { siteConfig } from "@data/site";
+import { withBase } from "@utils/paths";
+
+interface Props {
+  title?: string;
+  description?: string;
+  path?: string;
+  image?: string;
+  structuredData?: Record<string, unknown>;
+}
+
+const {
+  title,
+  description = siteConfig.description,
+  path = "/",
+  image = siteConfig.ogImage,
+  structuredData,
+} = Astro.props;
+const pageTitle = title
+  ? `${title} | ${siteConfig.name}`
+  : `${siteConfig.name} | ${siteConfig.title}`;
+const canonicalUrl = new URL(withBase(path), siteConfig.siteUrl).toString();
+const imageUrl = new URL(withBase(image), siteConfig.siteUrl).toString();
+---
+
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+<meta property="og:type" content="website" />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={imageUrl} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+<meta
+  name="theme-color"
+  content="#f5f7fb"
+  media="(prefers-color-scheme: light)"
+/>
+<meta
+  name="theme-color"
+  content="#142433"
+  media="(prefers-color-scheme: dark)"
+/>
+<script is:inline>
+  const storedTheme = localStorage.getItem("theme");
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.dataset.theme =
+    storedTheme || (prefersDark ? "dark" : "light");
+</script>
+{
+  structuredData && (
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    />
+  )
+}
