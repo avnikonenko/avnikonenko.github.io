@@ -11,6 +11,7 @@
     "format:write": "prettier --write .",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build && node scripts/generate-sitemap.mjs && node scripts/check-internal-links.mjs",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "import:publications": "node scripts/import-publications.mjs && prettier --write src/data/publications.ts",
     "test:e2e": "playwright test",
     "test": "npm run build && npm run test:e2e"
   },
