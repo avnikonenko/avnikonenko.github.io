@@ -15,7 +15,7 @@ The site presents computational chemistry, cheminformatics, molecular modeling, 
 
 ## Prerequisites
 
-- Node.js 20 or newer
+- Node.js 22.12 or newer
 - npm
 
 ## Local development
