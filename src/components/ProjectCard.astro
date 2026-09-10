@@ -11,17 +11,6 @@ const { project } = Astro.props;
 ---
 
 <article class="card project-card">
-  {
-    project.image && (
-      <img
-        src={withBase(project.image)}
-        alt={project.imageAlt ?? ""}
-        width="960"
-        height="520"
-        loading="lazy"
-      />
-    )
-  }
   <div class="card__body">
     <h3>
       <a href={withBase(`/projects/${project.slug}/`)}>{project.title}</a>

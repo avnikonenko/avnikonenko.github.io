@@ -7,7 +7,7 @@ import { projects } from "@data/projects";
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  name: "Scientific software and computational chemistry projects",
+  name: "Projects",
   itemListElement: projects.map((project, index) => ({
     "@type": "SoftwareSourceCode",
     position: index + 1,
@@ -18,18 +18,14 @@ const structuredData = {
 ---
 
 <BaseLayout
-  title="Projects"
+  title="Selected projects"
   path="/projects/"
   description="Scientific software and computational chemistry projects by Aleksandra Ivanova."
   structuredData={structuredData}
 >
   <section class="page-section">
-    <SectionHeading
-      eyebrow="Projects"
-      title="Computational chemistry and scientific software projects"
-      intro="Each project page separates the scientific problem, methodology, validation, limitations, and code or publication links."
-    />
-    <div class="grid grid--2">
+    <SectionHeading eyebrow="Projects" title="Selected projects" />
+    <div class="grid">
       {projects.map((project) => <ProjectCard project={project} />)}
     </div>
   </section>

@@ -2,12 +2,14 @@
 import type { Publication } from "@data/types";
 import ExternalLink from "./ExternalLink.astro";
 import { isPlaceholder } from "@utils/paths";
+import { splitAuthors } from "@utils/authors";
 
 interface Props {
   publication: Publication;
 }
 
 const { publication } = Astro.props;
+const authors = splitAuthors(publication.authors);
 const citation =
   publication.citationText ??
   `${publication.authors}. ${publication.title}. ${publication.venue}. ${publication.year}.`;
@@ -15,7 +17,6 @@ const citation =
 
 <article
   class:list={[
-    "card",
     "publication-card",
     { "publication-card--highlighted": publication.highlighted },
   ]}
@@ -23,53 +24,61 @@ const citation =
   data-year={publication.year}
   data-type={publication.publicationType}
 >
-  <div class="card__body">
-    <div class="publication-card__meta">
-      <span>{publication.year}</span>
-      <span>{publication.publicationType}</span>
-      {publication.highlighted && <span>Highlighted</span>}
-    </div>
-    <h3>{publication.title}</h3>
-    <p class="authors">{publication.authors}</p>
-    <p>
-      {publication.venue}{
-        publication.volumePages ? `, ${publication.volumePages}` : ""
-      }
-    </p>
-    {publication.summary && <p>{publication.summary}</p>}
-    <div class="inline-actions">
-      {
-        publication.doi && !isPlaceholder(publication.doi) ? (
-          <ExternalLink
-            href={`https://doi.org/${publication.doi}`}
-            label="DOI"
-          />
-        ) : (
-          publication.doi && <span class="placeholder">{publication.doi}</span>
-        )
-      }
-      {
-        publication.externalUrl && (
-          <ExternalLink
-            href={publication.externalUrl}
-            label="Publication link"
-          />
-        )
-      }
-      <button class="text-button" type="button" data-copy={citation}
-        >Copy citation</button
-      >
-      {
-        publication.bibtex && (
-          <button
-            class="text-button"
-            type="button"
-            data-copy={publication.bibtex}
-          >
-            Copy BibTeX
-          </button>
-        )
-      }
-    </div>
+  <h3>{publication.title}</h3>
+  <p class="authors">
+    {
+      authors.map((author, index) => (
+        <>
+          {index > 0 && "; "}
+          {author.isSelf ? (
+            <strong class="author-self">{author.name}</strong>
+          ) : (
+            author.name
+          )}
+        </>
+      ))
+    }
+  </p>
+  <p class="publication-card__meta">
+    <span>{publication.venue}</span>
+    {publication.volumePages && <span>{publication.volumePages}</span>}
+    <span>{publication.year}</span>
+  </p>
+  {publication.summary && <p>{publication.summary}</p>}
+  <div class="inline-actions">
+    {
+      publication.doi && !isPlaceholder(publication.doi) && (
+        <ExternalLink
+          href={`https://doi.org/${publication.doi}`}
+          label={`doi:${publication.doi}`}
+        />
+      )
+    }
+    {
+      !publication.doi && publication.externalUrl && (
+        <ExternalLink
+          href={publication.externalUrl}
+          label={
+            publication.publicationType === "Thesis"
+              ? "Thesis record"
+              : "Publication"
+          }
+        />
+      )
+    }
+    <button class="text-button" type="button" data-copy={citation}
+      >Copy citation</button
+    >
+    {
+      publication.bibtex && (
+        <button
+          class="text-button"
+          type="button"
+          data-copy={publication.bibtex}
+        >
+          Copy BibTeX
+        </button>
+      )
+    }
   </div>
 </article>

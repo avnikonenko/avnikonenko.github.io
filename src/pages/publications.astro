@@ -1,21 +1,21 @@
 ---
 import PublicationCard from "@components/PublicationCard.astro";
 import SectionHeading from "@components/SectionHeading.astro";
-import SocialLinks from "@components/SocialLinks.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { publications } from "@data/publications";
+import { siteConfig } from "@data/site";
 
-const years = [
-  ...new Set(publications.map((publication) => publication.year)),
-].sort((a, b) => b - a);
+const sorted = [...publications].sort((a, b) => b.year - a.year);
+const years = [...new Set(sorted.map((publication) => publication.year))];
 const types = [
-  ...new Set(publications.map((publication) => publication.publicationType)),
+  ...new Set(sorted.map((publication) => publication.publicationType)),
 ].sort();
+const orcid = siteConfig.socialLinks.find((link) => link.label === "ORCID");
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   name: "Publications",
-  itemListElement: publications.map((publication, index) => ({
+  itemListElement: sorted.map((publication, index) => ({
     "@type": "ScholarlyArticle",
     position: index + 1,
     name: publication.title,
@@ -29,15 +29,14 @@ const structuredData = {
 <BaseLayout
   title="Publications"
   path="/publications/"
-  description="Publication list for Aleksandra Ivanova."
+  description="Publication list of Aleksandra Ivanova."
   structuredData={structuredData}
 >
   <section class="page-section">
-    <SectionHeading
-      eyebrow="Publications"
-      title="Publications"
-      intro="The publication list is data-driven. DOI, BibTeX, and complete citations use explicit placeholders until verified."
-    />
+    <SectionHeading eyebrow="Publications" title="Publications" />
+    <p class="status">
+      The complete list is also on <a href={orcid?.href}>ORCID</a>.
+    </p>
 
     <div class="filters" aria-label="Publication filters">
       <label>
@@ -58,17 +57,16 @@ const structuredData = {
 
     <div class="grid" data-publication-list>
       {
-        publications.map((publication) => (
+        sorted.map((publication) => (
           <PublicationCard publication={publication} />
         ))
       }
     </div>
 
-    <p class="status" data-copy-status aria-live="polite">
-      Citation and BibTeX copy buttons are available for entries with reviewable
-      citation text.
+    <p class="status">
+      <span data-filter-count aria-live="polite"></span>
+      <span data-copy-status aria-live="polite"></span>
     </p>
-    <SocialLinks />
   </section>
 </BaseLayout>
 
@@ -80,21 +78,34 @@ const structuredData = {
   const cards = [
     ...document.querySelectorAll<HTMLElement>("[data-publication-card]"),
   ];
+  const count = document.querySelector<HTMLElement>("[data-filter-count]");
   const status = document.querySelector<HTMLElement>("[data-copy-status]");
 
   function applyFilters() {
     const year = yearFilter?.value ?? "all";
     const type = typeFilter?.value ?? "all";
+    let visible = 0;
 
     for (const card of cards) {
       const matchesYear = year === "all" || card.dataset.year === year;
       const matchesType = type === "all" || card.dataset.type === type;
-      card.hidden = !(matchesYear && matchesType);
+      const show = matchesYear && matchesType;
+      card.hidden = !show;
+      if (show) visible += 1;
     }
+
+    if (count) {
+      count.textContent =
+        visible === cards.length
+          ? `${cards.length} entries.`
+          : `Showing ${visible} of ${cards.length} entries.`;
+    }
+    if (status) status.textContent = "";
   }
 
   yearFilter?.addEventListener("change", applyFilters);
   typeFilter?.addEventListener("change", applyFilters);
+  applyFilters();
 
   document.addEventListener("click", async (event) => {
     const target =
@@ -103,14 +114,12 @@ const structuredData = {
         : null;
     if (!target) return;
 
-    const value = target.dataset.copy ?? "";
     try {
-      await navigator.clipboard.writeText(value);
-      if (status) status.textContent = "Copied to clipboard.";
+      await navigator.clipboard.writeText(target.dataset.copy ?? "");
+      if (status) status.textContent = " Copied to clipboard.";
     } catch {
       if (status)
-        status.textContent =
-          "Clipboard copy failed; select and copy the citation manually.";
+        status.textContent = " Copy failed; select the citation manually.";
     }
   });
 </script>

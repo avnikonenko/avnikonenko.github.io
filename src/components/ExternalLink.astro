@@ -9,18 +9,14 @@ interface Props {
 
 const { href = "", label, class: className } = Astro.props;
 const text = label ?? href;
-const placeholder = isPlaceholder(href);
 ---
 
 {
-  placeholder ? (
+  isPlaceholder(href) ? (
     <span class:list={["placeholder", className]}>{text}</span>
   ) : (
     <a class={className} href={href} target="_blank" rel="noopener noreferrer">
       {text}
-      <span class="external-marker" aria-hidden="true">
-        ↗
-      </span>
     </a>
   )
 }

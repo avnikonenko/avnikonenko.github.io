@@ -36,22 +36,7 @@ const imageUrl = new URL(withBase(image), siteConfig.siteUrl).toString();
 <meta name="twitter:title" content={pageTitle} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageUrl} />
-<meta
-  name="theme-color"
-  content="#f5f7fb"
-  media="(prefers-color-scheme: light)"
-/>
-<meta
-  name="theme-color"
-  content="#142433"
-  media="(prefers-color-scheme: dark)"
-/>
-<script is:inline>
-  const storedTheme = localStorage.getItem("theme");
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  document.documentElement.dataset.theme =
-    storedTheme || (prefersDark ? "dark" : "light");
-</script>
+<meta name="theme-color" content="#fdfdfc" />
 {
   structuredData && (
     <script
