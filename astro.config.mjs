@@ -8,4 +8,6 @@ export default defineConfig({
   base,
   output: "static",
   trailingSlash: "always",
+  // The floating dev-only toolbar overlays page content while screenshotting.
+  devToolbar: { enabled: false },
 });

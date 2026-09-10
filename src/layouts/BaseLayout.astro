@@ -2,6 +2,7 @@
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import SEOHead from "@components/SEOHead.astro";
+import { versioned } from "@utils/assetVersion";
 import "@styles/global.css";
 
 interface Props {
@@ -18,11 +19,29 @@ const { title, description, path, structuredData } = Astro.props;
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <script is:inline>
+      (() => {
+        let stored = null;
+        try {
+          stored = localStorage.getItem("theme");
+        } catch {
+          stored = null;
+        }
+        document.documentElement.dataset.theme =
+          stored === "light" ? "light" : "dark";
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
       rel="icon"
-      href={`${import.meta.env.BASE_URL}favicon.svg`}
-      type="image/svg+xml"
+      href={versioned("/icon-32.png")}
+      type="image/png"
+      sizes="32x32"
+    />
+    <link
+      rel="apple-touch-icon"
+      href={versioned("/icon-180.png")}
+      sizes="180x180"
     />
     <SEOHead
       title={title}

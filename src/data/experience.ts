@@ -4,15 +4,10 @@ export const experience: ExperienceItem[] = [
   {
     role: "Researcher",
     organization:
-      "Institute of Molecular and Translational Medicine, Palacký University Olomouc",
+      "Institute of Molecular and Translational Medicine, Palacký University",
     location: "Olomouc, Czech Republic",
     start: "2026",
     end: "present",
-    field: [
-      "computational drug discovery",
-      "molecular modeling",
-      "scientific software development",
-    ],
     bullets: [
       "Computational drug discovery research using molecular dynamics simulations, molecular docking, binding free-energy analysis, QSAR modeling, and de novo molecular design.",
       "Development of Python-based workflows and open-source tools for reproducible molecular modeling, including StreaMD and CReM-opt.",
@@ -21,18 +16,13 @@ export const experience: ExperienceItem[] = [
   {
     role: "Ph.D. Researcher",
     organization:
-      "Institute of Molecular and Translational Medicine, Palacký University Olomouc",
+      "Institute of Molecular and Translational Medicine, Palacký University",
     location: "Olomouc, Czech Republic",
     start: "2019",
     end: "2026",
-    field: [
-      "computational chemistry",
-      "molecular and translational medicine",
-      "small-molecule design",
-    ],
     bullets: [
       "Doctoral research on computational methods linking molecular conformation to biological activity in small-molecule design, supervised by Dr. Pavel Polishchuk.",
-      "Built workflow automation for simulation setup, execution, restart handling, analysis, and reporting on local and high-performance computing systems.",
+      "Built computational chemistry workflows for high-performance computing systems.",
       "Contributed computational chemistry support to collaborative medicinal chemistry studies, resulting in co-authored publications.",
     ],
   },

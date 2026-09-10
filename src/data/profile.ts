@@ -9,6 +9,5 @@ export const profile = {
   biography: [
     "I develop computational methods and reproducible workflows for molecular dynamics, de novo molecular design, QSAR modeling, with a focus on practical drug-discovery applications.",
     "I am the lead developer of StreaMD, an open-source toolkit for automated molecular dynamics workflows at scale, and of CReM-opt and CReM-agent, docking-guided frameworks for de novo molecular design and optimization.",
-    "A recurring theme in my work is making computational methods usable and auditable: automated setup, explicit assumptions, checkpointed execution, reproducible environments, and outputs a scientist can inspect rather than take on trust. I treat docking scores, endpoint free-energy estimates, and QSAR predictions as decision support, not experimental truth.",
   ],
 };

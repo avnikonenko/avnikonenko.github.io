@@ -1,0 +1,16 @@
+---
+import { splitProjectNames } from "@utils/projectNames";
+
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+const segments = splitProjectNames(text);
+---
+
+{
+  segments.map((segment) =>
+    segment.isProject ? <strong>{segment.text}</strong> : segment.text,
+  )
+}

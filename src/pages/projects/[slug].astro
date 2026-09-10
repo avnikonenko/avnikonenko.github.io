@@ -33,7 +33,7 @@ const structuredData = {
   description={project.shortSummary}
   structuredData={structuredData}
 >
-  <section class="page-section">
+  <section class="page-section project-head">
     <p class="eyebrow">Project</p>
     <h1>{project.title}</h1>
     <p class="lede">{project.shortSummary}</p>
@@ -64,51 +64,48 @@ const structuredData = {
   </section>
 
   <section class="page-section">
-    <h2>Scientific problem</h2>
-    <p>{project.scientificProblem}</p>
+    <div class="detail-rows">
+      <div class="detail-row">
+        <h2>Scientific problem</h2>
+        <p>{project.scientificProblem}</p>
+      </div>
+
+      <div class="detail-row">
+        <h2>Motivation</h2>
+        <p>{project.motivation}</p>
+      </div>
+
+      <div class="detail-row">
+        <h2>My role</h2>
+        <ul>
+          {project.myRole.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+
+      <div class="detail-row">
+        <h2>Methodology</h2>
+        <ul>
+          {project.methodology.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+
+      <div class="detail-row">
+        <h2>Results</h2>
+        <ul>
+          {project.outputsOrValidation.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+
+      <div class="detail-row">
+        <h2>Software</h2>
+        <ul class="skill-list">
+          {project.methodsAndTechnologies.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
   </section>
 
-  <section class="page-section">
-    <h2>Motivation</h2>
-    <p>{project.motivation}</p>
-  </section>
-
-  <section class="page-section">
-    <h2>My role</h2>
-    <ul class="detail-list">
-      {project.myRole.map((item) => <li>{item}</li>)}
-    </ul>
-  </section>
-
-  <section class="page-section">
-    <h2>Methodology</h2>
-    <ul class="detail-list">
-      {project.methodology.map((item) => <li>{item}</li>)}
-    </ul>
-  </section>
-
-  <section class="page-section">
-    <h2>Results</h2>
-    <ul class="detail-list">
-      {project.outputsOrValidation.map((item) => <li>{item}</li>)}
-    </ul>
-  </section>
-
-  <section class="page-section">
-    <h2>Limitations</h2>
-    <ul class="detail-list">
-      {project.limitations.map((item) => <li>{item}</li>)}
-    </ul>
-  </section>
-
-  <section class="page-section">
-    <h2>Software and technologies</h2>
-    <ul class="skill-list">
-      {project.methodsAndTechnologies.map((item) => <li>{item}</li>)}
-    </ul>
-  </section>
-
-  <section class="page-section">
+  <section class="page-section page-section--tight">
     <p><a href={withBase("/projects/")}>Back to projects</a></p>
   </section>
 </BaseLayout>

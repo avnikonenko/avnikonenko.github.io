@@ -2,7 +2,6 @@
 import ExperienceTimeline from "@components/ExperienceTimeline.astro";
 import SectionHeading from "@components/SectionHeading.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
-import { awards } from "@data/awards";
 import { conferences } from "@data/conferences";
 import { education } from "@data/education";
 import { experience } from "@data/experience";
@@ -11,7 +10,7 @@ import { experience } from "@data/experience";
 <BaseLayout
   title="Experience"
   path="/experience/"
-  description="Experience, education, awards, and talks of Aleksandra Ivanova."
+  description="Experience, education, talks and teaching of Aleksandra Ivanova."
 >
   <section class="page-section">
     <SectionHeading eyebrow="Experience" title="Experience" />
@@ -44,24 +43,6 @@ import { experience } from "@data/experience";
                 </p>
               )}
               {item.status && <p class="muted">{item.status}</p>}
-            </div>
-          </li>
-        ))
-      }
-    </ol>
-  </section>
-
-  <section class="page-section">
-    <SectionHeading title="Honors and awards" />
-    <ol class="timeline">
-      {
-        awards.map((item) => (
-          <li class="timeline__item">
-            <div class="timeline__date">{item.year}</div>
-            <div class="timeline__content">
-              <h3>{item.title}</h3>
-              <p class="organization">{item.organization}</p>
-              {item.note && <p class="muted">{item.note}</p>}
             </div>
           </li>
         ))

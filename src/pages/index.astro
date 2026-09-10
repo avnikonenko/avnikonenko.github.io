@@ -1,11 +1,9 @@
 ---
-import SectionHeading from "@components/SectionHeading.astro";
-import SkillGroup from "@components/SkillGroup.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { profile } from "@data/profile";
 import { siteConfig } from "@data/site";
 import { skills } from "@data/skills";
-import { withBase } from "@utils/paths";
+import { versioned } from "@utils/assetVersion";
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -30,26 +28,27 @@ const structuredData = {
 ---
 
 <BaseLayout structuredData={structuredData}>
-  <section class="page-section">
-    <h1>{profile.name}</h1>
-    <p class="identity-line">
-      {siteConfig.title} · {siteConfig.location}
-    </p>
-    <p class="availability">{siteConfig.availability}</p>
-    <div class="grid about-biography">
-      {profile.biography.map((paragraph) => <p>{paragraph}</p>)}
-    </div>
-    <p class="page-section--tight">
-      <a class="button button--primary" href={withBase(siteConfig.cvPdf)}
-        >Download CV (PDF)</a
-      >
-    </p>
-  </section>
-
-  <section class="page-section">
-    <SectionHeading title="Skills" />
-    <div class="grid">
-      {skills.map((group) => <SkillGroup group={group} />)}
+  <section class="page-section home-head">
+    <img
+      class="home-logo home-logo--light"
+      src={versioned("/logo-dark-256.png")}
+      width="128"
+      height="128"
+      alt=""
+    />
+    <img
+      class="home-logo home-logo--dark"
+      src={versioned("/logo-256.png")}
+      width="128"
+      height="128"
+      alt=""
+    />
+    <div>
+      <h1>{profile.name}</h1>
+      <p class="identity-line">
+        {siteConfig.title} · {siteConfig.location}
+      </p>
+      <p class="availability">{siteConfig.availability}</p>
     </div>
   </section>
 </BaseLayout>

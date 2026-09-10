@@ -15,31 +15,40 @@ export const siteConfig = {
   emailDisplay: "a.ivanova.contact@gmail.com",
   emailHref: "mailto:a.ivanova.contact@gmail.com",
   socialLinks: [
-    { label: "GitHub", href: "https://github.com/avnikonenko", kind: "github" },
+    {
+      label: "GitHub",
+      href: "https://github.com/avnikonenko",
+      kind: "github",
+      icon: "github",
+    },
     {
       label: "LinkedIn",
       href: "https://www.linkedin.com/in/aleksandra-ivanova-628974242",
       kind: "profile",
+      icon: "linkedin",
     },
     {
       label: "ORCID",
       href: "https://orcid.org/0000-0002-8064-7845",
       kind: "profile",
+      icon: "orcid",
     },
     {
       label: "Scopus",
       href: "https://www.scopus.com/authid/detail.uri?authorId=57889776600",
       kind: "profile",
+      icon: "scopus",
     },
   ] satisfies LinkItem[],
   cvPdf: "/CV_Ivanova.pdf",
-  ogImage: "/images/og-image.svg",
+  ogImage: "/icon-512.png",
 };
 
 export const navigation = [
+  { label: "About", href: "/about/" },
   { label: "Experience", href: "/experience/" },
   { label: "Projects", href: "/projects/" },
   { label: "Publications", href: "/publications/" },
   { label: "Contact", href: "/contact/" },
-  { label: "CV (PDF)", href: siteConfig.cvPdf },
+  { label: "CV", href: siteConfig.cvPdf },
 ];

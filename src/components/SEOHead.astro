@@ -36,7 +36,16 @@ const imageUrl = new URL(withBase(image), siteConfig.siteUrl).toString();
 <meta name="twitter:title" content={pageTitle} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageUrl} />
-<meta name="theme-color" content="#fdfdfc" />
+<meta
+  name="theme-color"
+  content="#fdfdfc"
+  media="(prefers-color-scheme: light)"
+/>
+<meta
+  name="theme-color"
+  content="#171717"
+  media="(prefers-color-scheme: dark)"
+/>
 {
   structuredData && (
     <script

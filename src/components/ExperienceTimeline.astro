@@ -1,5 +1,6 @@
 ---
 import type { ExperienceItem } from "@data/types";
+import Prose from "./Prose.astro";
 
 interface Props {
   items: ExperienceItem[];
@@ -19,10 +20,11 @@ const { items } = Astro.props;
           <h3>{item.role}</h3>
           <p class="organization">{item.organization}</p>
           {item.location && <p class="muted">{item.location}</p>}
-          {item.field && <p class="muted">{item.field.join(" · ")}</p>}
           <ul>
             {item.bullets.map((bullet) => (
-              <li>{bullet}</li>
+              <li>
+                <Prose text={bullet} />
+              </li>
             ))}
           </ul>
         </div>

@@ -29,7 +29,7 @@ function stripBase(href) {
 }
 
 function pathExists(href) {
-  const withoutHash = stripBase(href.split("#")[0]);
+  const withoutHash = stripBase(href.split("#")[0].split("?")[0]);
   if (!withoutHash || withoutHash === "/") {
     return existsSync(path.join(distDir, "index.html"));
   }

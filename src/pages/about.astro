@@ -1,0 +1,33 @@
+---
+import Prose from "@components/Prose.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import SkillGroup from "@components/SkillGroup.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { profile } from "@data/profile";
+import { skills } from "@data/skills";
+---
+
+<BaseLayout
+  title="About"
+  path="/about/"
+  description="Biography and skills of Aleksandra Ivanova."
+>
+  <section class="page-section">
+    <div class="grid about-biography">
+      {
+        profile.biography.map((paragraph) => (
+          <p>
+            <Prose text={paragraph} />
+          </p>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="page-section">
+    <SectionHeading title="Skills" />
+    <div class="grid">
+      {skills.map((group) => <SkillGroup group={group} />)}
+    </div>
+  </section>
+</BaseLayout>

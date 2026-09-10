@@ -46,8 +46,10 @@ what the CV does not settle.
       docking with Glide), part-time, June-December 2022.
 - [x] Degree wording: "Specialist Degree with Honours in Bioengineering and
       Bioinformatics".
-- [x] Honors, awards, lectures, and workshops added in `src/data/awards.ts` and
-      `src/data/conferences.ts`.
+- [x] Lectures, talks, and workshops are in `src/data/conferences.ts`. Honors
+      and awards are intentionally not shown on the site; the CV PDF carries
+      them (Dean's Awards, CACHE third place, ICCS Poster Award, 2026 in silico
+      Drug Design Challenge).
 - [x] Tubulin and estradiol modeling work is described from the four published
       co-authored studies only.
 - [x] Ph.D. thesis record: https://theses.cz/id/ux69av/ (linked from the

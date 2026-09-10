@@ -1,5 +1,5 @@
 ---
-import ExternalLink from "@components/ExternalLink.astro";
+import Icon from "@components/Icon.astro";
 import SectionHeading from "@components/SectionHeading.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { siteConfig } from "@data/site";
@@ -22,17 +22,23 @@ import { withBase } from "@utils/paths";
 
   <section class="page-section">
     <SectionHeading title="Profiles" />
-    <ul class="link-row">
+    <ul class="link-row link-row--icons">
       {
         siteConfig.socialLinks.map((link) => (
           <li>
-            <ExternalLink href={link.href} label={link.label} />
+            <a href={link.href} target="_blank" rel="noopener noreferrer">
+              {link.icon && <Icon name={link.icon} />}
+              {link.label}
+            </a>
           </li>
         ))
       }
     </ul>
     <p class="page-section--tight">
-      <a href={withBase(siteConfig.cvPdf)}>Download CV (PDF)</a>
+      <a class="icon-link" href={withBase(siteConfig.cvPdf)}>
+        <Icon name="download" />
+        Download CV
+      </a>
     </p>
   </section>
 </BaseLayout>

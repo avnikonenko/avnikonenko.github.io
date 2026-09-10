@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("landing page carries the about content", async ({ page }) => {
+test("landing page is the identity block only", async ({ page }) => {
   await page.goto("/");
   await expect(
     page.getByRole("heading", { name: "Aleksandra Ivanova", level: 1 }),
@@ -11,9 +11,39 @@ test("landing page carries the about content", async ({ page }) => {
     ),
   ).toBeVisible();
   await expect(page.getByText(/Open to research, postdoctoral/)).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Skills" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Skills" })).toHaveCount(0);
+
+  // The CV download belongs to the footer only.
+  await expect(page.getByRole("link", { name: /Download CV/i })).toHaveCount(1);
   await expect(
-    page.getByRole("link", { name: /Download CV \(PDF\)/i }).first(),
+    page.locator(".site-footer").getByRole("link", { name: /Download CV/i }),
+  ).toBeVisible();
+});
+
+test("about page carries the biography, CV link and skills", async ({
+  page,
+}) => {
+  await page.goto("/about/");
+  await expect(
+    page.getByRole("heading", { name: "Aleksandra Ivanova" }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByText(
+      "Computational Chemist and Scientific Software Developer · Olomouc, Czech Republic",
+    ),
+  ).toHaveCount(0);
+  await expect(page.getByText(/Open to research, postdoctoral/)).toHaveCount(0);
+  await expect(
+    page.getByText(
+      /I develop computational methods and reproducible workflows/,
+    ),
+  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Skills" })).toBeVisible();
+
+  // The CV download belongs to the footer only.
+  await expect(page.getByRole("link", { name: /Download CV/i })).toHaveCount(1);
+  await expect(
+    page.locator(".site-footer").getByRole("link", { name: /Download CV/i }),
   ).toBeVisible();
 });
 
@@ -22,9 +52,14 @@ test("main navigation reaches required pages", async ({ page }) => {
   const nav = page.getByRole("navigation", { name: "Primary" });
 
   await expect(nav.getByRole("link", { name: "Home" })).toHaveCount(0);
-  await expect(nav.getByRole("link", { name: "About" })).toHaveCount(0);
 
-  for (const name of ["Experience", "Projects", "Publications", "Contact"]) {
+  for (const name of [
+    "About",
+    "Experience",
+    "Projects",
+    "Publications",
+    "Contact",
+  ]) {
     await nav.getByRole("link", { name, exact: true }).click();
     await expect(page).toHaveURL(new RegExp(`/${name.toLowerCase()}/$`));
   }
@@ -37,7 +72,7 @@ test("CV is reachable as a PDF from the navigation", async ({
   await page.goto("/");
   const cvLink = page
     .getByRole("navigation", { name: "Primary" })
-    .getByRole("link", { name: /CV \(PDF\)/i });
+    .getByRole("link", { name: /^CV$/ });
   const href = await cvLink.getAttribute("href");
   expect(href).toMatch(/CV_Ivanova\.pdf$/);
 
@@ -46,11 +81,9 @@ test("CV is reachable as a PDF from the navigation", async ({
   expect(response.headers()["content-type"]).toContain("application/pdf");
 });
 
-test("removed pages are gone", async ({ request }) => {
-  for (const path of ["/cv/", "/about/"]) {
-    const response = await request.get(path, { maxRedirects: 0 });
-    expect(response.status()).toBe(404);
-  }
+test("the on-site CV page is gone", async ({ request }) => {
+  const response = await request.get("/cv/", { maxRedirects: 0 });
+  expect(response.status()).toBe(404);
 });
 
 test("project pages and publication page render", async ({ page }) => {
@@ -118,10 +151,81 @@ test("navigation stays usable at phone width", async ({ page }) => {
   await page.goto("/");
   const nav = page.getByRole("navigation", { name: "Primary" });
   await expect(nav).toBeVisible();
-  await expect(nav.getByRole("link", { name: /CV \(PDF\)/i })).toBeVisible();
+  await expect(nav.getByRole("link", { name: /^CV$/ })).toBeVisible();
 
   const scrollWidth = await page.evaluate(
     () => document.documentElement.scrollWidth,
   );
   expect(scrollWidth).toBeLessThanOrEqual(390);
+});
+
+test("dark mode is the default, whatever the system prefers", async ({
+  page,
+}) => {
+  for (const colorScheme of ["light", "dark", "no-preference"] as const) {
+    await page.emulateMedia({ colorScheme });
+    await page.goto("/");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    const background = await page.evaluate(
+      () => getComputedStyle(document.documentElement).backgroundColor,
+    );
+    expect(background, colorScheme).toBe("rgb(23, 23, 23)");
+  }
+});
+
+test("the toggle opts into light mode and the choice persists", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  await page.getByRole("button", { name: /switch to light mode/i }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  const light = await page.evaluate(
+    () => getComputedStyle(document.documentElement).backgroundColor,
+  );
+  expect(light).toBe("rgb(253, 253, 252)");
+
+  // The choice survives navigation.
+  await page.goto("/about/");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(
+    page.getByRole("button", { name: /switch to dark mode/i }),
+  ).toBeVisible();
+
+  await page.getByRole("button", { name: /switch to dark mode/i }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+});
+
+test("the logo is served as the site icon", async ({ page, request }) => {
+  await page.goto("/");
+  const icon = page.locator('link[rel="icon"]');
+  await expect(icon).toHaveAttribute("href", /icon-32\.png\?v=[0-9a-f]{8}$/);
+
+  for (const path of [
+    "/icon-32.png",
+    "/icon-180.png",
+    "/icon-512.png",
+    "/logo-256.png",
+    "/logo-dark-256.png",
+  ]) {
+    const response = await request.get(path);
+    expect(response.status(), path).toBe(200);
+    expect(response.headers()["content-type"]).toContain("image/png");
+  }
+
+  // The favicon should stay small enough not to weigh on every page load.
+  const favicon = await request.get("/icon-32.png");
+  expect((await favicon.body()).byteLength).toBeLessThan(20_000);
+});
+
+test("the home logo follows the theme", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("img.home-logo--dark")).toBeVisible();
+  await expect(page.locator("img.home-logo--light")).toBeHidden();
+
+  await page.getByRole("button", { name: /switch to light mode/i }).click();
+  await expect(page.locator("img.home-logo--light")).toBeVisible();
+  await expect(page.locator("img.home-logo--dark")).toBeHidden();
 });

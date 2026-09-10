@@ -1,3 +1,5 @@
+import type { IconName } from "@utils/icons";
+
 export type LinkKind =
   | "github"
   | "publication"
@@ -11,6 +13,7 @@ export interface LinkItem {
   label: string;
   href: string;
   kind?: LinkKind;
+  icon?: IconName;
 }
 
 export interface Project {
@@ -23,12 +26,10 @@ export interface Project {
   methodology: string[];
   methodsAndTechnologies: string[];
   outputsOrValidation: string[];
-  limitations: string[];
   publicationLinks: LinkItem[];
   githubRepository?: string;
   documentationLink?: string;
   conferencePresentationLink?: string;
-  featured: boolean;
   tags: string[];
 }
 
@@ -61,7 +62,6 @@ export interface ExperienceItem {
   location?: string;
   start: string;
   end: string;
-  field?: string[];
   bullets: string[];
 }
 
@@ -82,17 +82,10 @@ export interface SkillGroup {
   skills: string[];
 }
 
-export interface AwardItem {
-  year: string;
-  title: string;
-  organization: string;
-  note?: string;
-}
-
 export interface ConferenceItem {
   event: string;
   location: string;
-  year: number;
+  year: string;
   title: string;
   type: string;
   links: LinkItem[];
