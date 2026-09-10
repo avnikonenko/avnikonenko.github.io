@@ -277,7 +277,6 @@ code {
 }
 
 .site-footer__note {
-  flex: 1 0 100%;
   margin-left: auto;
   color: var(--muted);
   font-size: 0.75rem;

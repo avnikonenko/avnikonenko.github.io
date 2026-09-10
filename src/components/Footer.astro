@@ -1,11 +1,12 @@
 ---
+import { siteConfig } from "@data/site";
 
+// Built fresh on every deploy, so the notice never goes stale.
+const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p class="site-footer__note">
-      Static site. No analytics, tracking, or contact form.
-    </p>
+    <p class="site-footer__note">© {year} {siteConfig.name}</p>
   </div>
 </footer>
