@@ -669,10 +669,9 @@ code {
   color: var(--highlight-detail);
 }
 
-/* On the Selected projects list, marked details take the same colour as the
-   bold on About. */
-.project-card .highlight--detail {
-  color: var(--highlight-method);
+/* The Selected projects list keeps the bold weight but not the colour. */
+.project-card .highlight {
+  color: inherit;
 }
 
 /* On a project page only the details marked in PROJECTS.md carry colour — the
