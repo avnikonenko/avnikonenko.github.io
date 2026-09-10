@@ -13,7 +13,7 @@ import { experience } from "@data/experience";
   description="Experience, education, talks and teaching of Aleksandra Ivanova."
 >
   <section class="page-section">
-    <SectionHeading eyebrow="Experience" title="Experience" />
+    <SectionHeading title="Experience" />
     <ExperienceTimeline items={experience} />
   </section>
 
@@ -42,7 +42,7 @@ import { experience } from "@data/experience";
                   )}
                 </p>
               )}
-              {item.status && <p class="muted">{item.status}</p>}
+              {item.status && <p>{item.status}</p>}
             </div>
           </li>
         ))
@@ -62,7 +62,7 @@ import { experience } from "@data/experience";
               <p class="organization">
                 {item.type} · {item.event}, {item.location}
               </p>
-              {item.note && <p class="muted">{item.note}</p>}
+              {item.note && <p>{item.note}</p>}
             </div>
           </li>
         ))

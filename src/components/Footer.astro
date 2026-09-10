@@ -1,14 +1,11 @@
 ---
-import Icon from "@components/Icon.astro";
-import { siteConfig } from "@data/site";
-import { withBase } from "@utils/paths";
+
 ---
 
 <footer class="site-footer">
-  <p class="site-footer__note">
-    <a class="icon-link" href={withBase(siteConfig.cvPdf)}>
-      <Icon name="download" />
-      Download CV
-    </a> · Static site. No analytics, tracking, or contact form.
-  </p>
+  <div class="site-footer__inner">
+    <p class="site-footer__note">
+      Static site. No analytics, tracking, or contact form.
+    </p>
+  </div>
 </footer>

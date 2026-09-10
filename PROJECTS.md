@@ -10,85 +10,91 @@ and `npm run build` reads this file directly. Rules that keep it parseable:
 - Keep list items as `- ` bullets; add or delete bullets freely.
 - `Tags` and `Software` are comma-separated single lines.
 - Links are `- Label — URL`. Delete the whole line to drop a link.
+- A `Links` line without a URL is kept as a plain note.
+- Wrap anything in `**double asterisks**` to highlight it as an important
+  detail (results, roles). Tool and method names are highlighted automatically.
 - Project order in this file becomes the order on the site.
-- To edit in Word: `npm run projects:docx`, edit PROJECTS.docx, then
-  `npm run projects:from-docx`.
 
 ## Project — crem-agent
 
 Title: CReM-agent
 
-Short summary: Autonomous, agent-driven molecular optimization framework powered by CReM and molecular docking.
+Short summary: Agent-driven molecular optimization combining CReM transformations with molecular docking in a logged, restartable workflow.
 
 Tags: AI agents, de novo design, CReM, docking
 
 ### Scientific problem
 
-Molecular optimization campaigns involve repeated decisions about which transformations to try next, which are usually made by hand and rarely recorded in a reviewable form.
+**Iterative molecular optimization** requires repeated choices about where and how to modify a molecule, while exhaustive scoring is computationally expensive and unconstrained optimization can lead to chemically unrealistic or synthetically unfeasible candidates.
 
 ### Motivation
 
-CReM-agent delegates those decisions to an agent that plans transformation and docking cycles, so the search strategy itself becomes explicit, logged, and reproducible.
+**CReM-agent** explores whether a **language-model agent** can guide these choices while deterministic tools retain control of molecular generation, **docking**, validation, and run state, and **CReM** constrains transformations toward chemically reasonable and more synthetically feasible structures.
 
 ### My role
 
-- Lead developer of the agent-driven optimization framework.
-- Designed the agent-tool interface between the language model, CReM transformations, and docking.
+- Proposed the concept and led development of the framework.
+- Designed the interface between the agent, **CReM** transformations, molecular validation, and docking.
+- Integrated and deployed **local/open-source LLMs** as agent backends.
+- Implemented **Bubblewrap-based isolation** to restrict agent access to the execution environment and deterministic tooling.
+- Developed run-state, provenance, restart, and docking-budget logic for reproducible optimization.
 
 ### Methodology
 
-- Agent-planned cycles of CReM fragment replacement and docking evaluation.
-- Structured agent-tool communication with logged intermediate decisions.
-- Cheminformatics filtering and prioritization of generated molecules.
+- The agent proposes hypothesis, molecular sites, transformations, and search steps from the available molecular and docking information.
+- **CReM** performs chemically constrained fragment transformations; deterministic code validates candidates and prevents duplicate evaluations.
+- **Docking** provides the structure-based objective, while run state and agent actions are stored for inspection and restart.
+- Supports **hosted and local LLMs**.
 
 ### Results
 
+- **Working framework under active development and evaluation.**
 - Manuscript in preparation.
 
 ### Software
 
-Python, RDKit, CReM, AutoDock Vina, hosted and local LLMs
+Python, RDKit, CReM, EasyDock, AutoDock Vina, hosted (Claude code/Codex) and local LLMs
 
 ### Links
 
-- (none)
+- not open-source project yet
 
 ## Project — streamd
 
 Title: StreaMD
 
-Short summary: Open-source toolkit for automated setup, execution, and analysis of high-throughput molecular dynamics simulations.
+Short summary: Open-source toolkit for automated setup, execution, restart, and analysis of molecular dynamics simulations across many biomolecular complexes.
 
 Tags: molecular dynamics, GROMACS, workflow automation, HPC, protein-ligand analysis
 
 ### Scientific problem
 
-Protein-ligand molecular dynamics studies require many manual setup and analysis steps, which introduce avoidable errors and make reproduction difficult across systems, ligands, and computing environments.
+Running **molecular dynamics** across **thousands systems** requires repetitive preparation, execution, restart, and analysis steps that are difficult to perform consistently by hand.
 
 ### Motivation
 
-StreaMD reduces repetitive manual work, keeps simulation protocols consistent, and produces analysis output that can be reviewed across many protein-ligand systems.
+**StreaMD** was developed to automate these technically repetitive stages without removing the scientific decisions needed to define an appropriate simulation protocol.
 
 ### My role
 
-- Lead developer: designed and maintained the workflow for automated molecular dynamics setup, execution, restart handling, and analysis.
-- Integrated ligand and cofactor preparation, GROMACS simulation stages, protein-ligand interaction analysis, and endpoint free-energy calculations.
-- First author of the accompanying Journal of Cheminformatics publication.
+- Principal developer of StreaMD; developed, tested, and maintained the automated MD workflow.
+- Integrated system preparation, **GROMACS** execution, restart handling, trajectory processing, **protein–ligand interaction analysis**, and **endpoint free-energy calculations**.
+- First author of the Journal of Cheminformatics publication describing the toolkit.
 
 ### Methodology
 
-- Ligand, cofactor, protein, and simulation-system preparation.
-- Minimization, equilibration, and production stages using GROMACS.
-- RMSD, RMSF, radius of gyration, and protein-ligand interaction analysis.
-- ProLIF integration for interaction fingerprints and reporting.
-- MM/GBSA and MM/PBSA endpoint free-energy calculations where appropriate.
-- Checkpoint-based restarts, multi-replica execution, and distributed or HPC execution.
+- Automated preparation of proteins, ligands, cofactors, systems for **GROMACS** simulations.
+- Minimization, equilibration, production MD, checkpoint-based restart, and trajectory extension.
+- RMSD, RMSF, radius of gyration, trajectory fitting, and **ProLIF** interaction analysis.
+- Automated **MM/GBSA** and **MM/PBSA** calculations and aggregation across complexes.
+- **CPU/GPU** and distributed execution for multiple systems and replicas.
 
 ### Results
 
-- Automated simulation directories and checkpoint-aware execution.
-- Reproducible analysis tables and plots for simulation stability and protein-ligand interactions.
+- Validated on a benchmark of 624 protein–ligand complexes
+- Used as part of the prospective **CACHE Challenge #1** hit-finding workflow.
 - Published in Journal of Cheminformatics (2024).
+- **100+ GitHub stars**.
 
 ### Software
 
@@ -103,43 +109,39 @@ Python, GROMACS, AmberTools, MDAnalysis, ProLIF, gmx_MMPBSA, Dask, PBS, SLURM
 
 Title: CReM-opt
 
-Short summary: Docking-guided molecular optimization framework combining CReM fragment replacement, a genetic algorithm, and atom-wise docking score attribution.
+Short summary: Docking-guided **evolutionary molecular optimization** using chemically constrained **CReM** fragment replacements.
 
-Tags: de novo design, CReM, RDKit, docking, CACHE
+Tags: de novo design, CReM, RDKit, docking
 
 ### Scientific problem
 
-Structure-based molecule generation has to balance chemical transformations, scaffold constraints, docking hypotheses, and practical filtering without overstating the reliability of scoring functions.
+**Structure-based optimization** must efficiently explore a large chemical space while keeping generated molecules chemically reasonable and improving a chosen optimization objective.
 
 ### Motivation
 
-The framework supports prospective molecular design by combining fragment-based transformations with docking and cheminformatics filters, while keeping intermediate decisions inspectable and explainable.
+**CReM-opt** was developed for focused exploration around promising molecules, combining **CReM** transformations with **docking** and user-defined structural or physicochemical constraints.
 
 ### My role
 
-- Developed the optimization workflow: fragment expansion and decoration, scaffold-aware optimization, docking, and molecular filtering.
-- Implemented atom-wise docking score attribution to make optimization decisions explainable.
-- Applied the workflow to prospective design in CACHE Challenge #1.
+- Developed and applied the molecular generation, evolutionary optimization, docking, and prioritization workflow.
+- Added **atom-wise docking-score contribution** to support interpretation and guidance of optimization decisions.
+- Applied **CReM-opt** in the prospective **CACHE Challenge #1** workflow.
 
 ### Methodology
 
-- Fragment-based molecular transformations using CReM.
-- Genetic-algorithm optimization loops with an AI agent in the loop.
-- AutoDock Vina or Gnina docking for structure-based scoring and pose hypotheses.
-- Scaffold protection, fragment expansion, decoration, and iterative filtering.
-- Atom-wise attribution of docking scores across optimization cycles.
-- Cheminformatics filtering, diversity analysis, and prioritization.
+- **CReM** fragment replacement coupled to an evolutionary population-based search.
+- Docking through **EasyDock**, using Vina-family methods including **Gnina**.
+- Optional physicochemical filters, **scaffold protection**, **pose-RMSD constraints**, and **protein–ligand interaction similarity**.
 
 ### Results
 
-- Applied in CACHE Challenge #1 on the WDR domain of LRRK2, where the team placed third.
-- Presented as a talk at the RDKit User Group Meeting 2025 in Prague.
-- Poster Award at the 12th International Conference on Chemical Structures (2022).
-- Docking and cheminformatics output is treated as hypotheses for prioritization, not proof of activity.
+- Used prospectively as part of the team's **CACHE Challenge #1** hit-finding workflow.
+- Presented at **RDKit UGM 2025**
+- Manuscript in preparation.
 
 ### Software
 
-Python, RDKit, CReM, AutoDock Vina, Gnina, pandas, NumPy
+Python, RDKit, CReM, EasyDock, AutoDock Vina, Gnina, pandas, NumPy
 
 ### Links
 
@@ -150,80 +152,79 @@ Python, RDKit, CReM, AutoDock Vina, Gnina, pandas, NumPy
 
 Title: MIL-based QSAR modeling
 
-Short summary: Conformer-based multi-instance learning approach for molecular activity prediction, with automated collection of activity-cliff datasets.
+Short summary: **Conformational-ensemble QSAR** using **multi-instance learning** and **chirality-aware 3D pharmacophore** descriptors.
 
 Tags: QSAR, conformers, multi-instance learning, 3D pharmacophores, RDKit
 
 ### Scientific problem
 
-A single 2D molecular representation can miss conformation-dependent pharmacophore patterns, but naively adding 3D conformers also adds noise and computational cost.
+Single-conformer 3D QSAR depends on choosing one molecular geometry even though the biologically relevant conformation is usually unknown.
 
 ### Motivation
 
-The work evaluates whether chirality-aware three-dimensional pharmacophore descriptors and multi-instance learning capture useful conformational signal in QSAR classification.
+The study tested whether representing each molecule by an ensemble of conformers could retain useful 3D and stereochemical information without selecting a single presumed bioactive conformation.
 
 ### My role
 
-- Developed and evaluated conformational-ensemble representations for QSAR classification.
-- Automated the collection of activity-cliff datasets, including stereoisomers with differential biological activity.
-- First author of the Molecular Informatics publication; contributed dataset curation and docking to a related study.
+- Implemented the **conformational-ensemble modeling** approach and prepared and curated the **chiral/achiral** datasets.
+- Built and evaluated **QSAR models**, interpreted the results, and contributed to manuscript preparation.
+- Automated collection of **stereochemically sensitive activity datasets**.
+- First author of the Molecular Informatics publication.
 
 ### Methodology
 
-- Conformer ensemble generation and curation.
-- Chirality-aware three-dimensional pharmacophore quadruplet descriptors.
-- MIL-max and MIL-k-means representations.
-- QSAR classification, model evaluation, and comparison with 2D fingerprints.
+- Generation of conformational ensembles for each molecule.
+- Chirality-aware, alignment-independent **3D pharmacophore descriptors**.
+- MIL-k-means, MIL-max, and related ensemble representations.
+- Comparison with **single-conformer 3D models** and strong **2D QSAR** baselines.
 
 ### Results
 
-- Benchmarking of conformational-ensemble representations against 2D baselines.
-- Dataset-specific analysis of when 3D descriptors provide useful signal.
-- Published in Molecular Informatics (2021) and, as a related study, in J. Chem. Inf. Model. (2021).
+- Published in Molecular Informatics (2021).
 
 ### Software
 
-Python, RDKit, scikit-learn, NumPy, pandas, Matplotlib
+Python, RDKit, pmapper, scikit-learn, NumPy, pandas, Matplotlib
 
 ### Links
 
 - Molecular Informatics (2021) — https://doi.org/10.1002/minf.202060030
-- J. Chem. Inf. Model. (2021) — https://doi.org/10.1021/acs.jcim.1c00692
+- Related J. Chem. Inf. Model. study (2021) — https://doi.org/10.1021/acs.jcim.1c00692
 
 ## Project — chembl-datasets-collection
 
 Title: ChEMBL datasets collection
 
-Short summary: Automated pipeline for retrieving and preprocessing bioactivity datasets from ChEMBL for specific activity types.
+Short summary: Automated retrieval and preprocessing of **ChEMBL bioactivity data** for **QSAR** modeling.
 
 Tags: cheminformatics, data curation, ChEMBL, QSAR
 
 ### Scientific problem
 
-Assembling comparable bioactivity datasets from ChEMBL requires consistent filtering by activity type, assay, and data quality.
+**ChEMBL** contains heterogeneous assay annotations and activity records that require consistent filtering and preprocessing before **QSAR** modeling.
 
 ### Motivation
 
-The pipeline makes dataset assembly repeatable, so QSAR experiments can be rerun on freshly extracted data.
+The pipeline was built to make repeated extraction of task-specific bioactivity datasets faster and reproducible.
 
 ### My role
 
-- Developed the retrieval and preprocessing pipeline.
-- Implemented filtering tailored to activity types such as agonists, antagonists, and inverse agonists.
+- Developed the data-retrieval and preprocessing pipeline.
+- Implemented filtering for **specific activity modes**, including agonists, antagonists, and inverse agonists.
 
 ### Methodology
 
-- Programmatic extraction from the ChEMBL database.
-- Activity-type-specific filtering and unit normalization.
-- Structure standardization and quality control of assembled datasets.
+- Programmatic extraction of **ChEMBL** bioactivity records.
+- **Activity-type filtering**, **structure preprocessing**, and **dataset quality control**.
+- **Automatic dataset standardization** for downstream QSAR modeling.
 
 ### Results
 
-- Reproducible bioactivity datasets used for QSAR modeling experiments.
+- Produced reusable, reproducible datasets for ligand-based modeling tasks.
 
 ### Software
 
-Python, RDKit, pandas, SQL
+Python, RDKit, pandas, SQL, API
 
 ### Links
 
@@ -233,17 +234,17 @@ Python, RDKit, pandas, SQL
 
 Title: HPC stats scripts
 
-Short summary: Utilities for monitoring SLURM and PBS job efficiency and CPU, GPU, and memory usage in HPC environments.
+Short summary: Utilities for summarizing **CPU**, **GPU**, **memory**, and **efficiency** for **SLURM** and **PBS** scheduled jobs.
 
 Tags: HPC, SLURM, PBS, tooling
 
 ### Scientific problem
 
-Long simulation campaigns waste allocation when jobs request resources they never use, and scheduler accounting output is not easy to read.
+Requested **HPC** resources can differ substantially from actual usage, while scheduler accounting output is cumbersome to inspect across many jobs.
 
 ### Motivation
 
-The scripts summarize job efficiency so simulation requests can be sized from measured usage rather than habit.
+The scripts were developed to make resource utilization easy to review when **profiling** and sizing **computational workloads**.
 
 ### My role
 
@@ -251,17 +252,16 @@ The scripts summarize job efficiency so simulation requests can be sized from me
 
 ### Methodology
 
-- Collection of scheduler accounting data from SLURM and PBS.
-- Aggregation of CPU, GPU, and memory utilization per job.
-- Reporting of job efficiency for review.
+- Parse **SLURM** and **PBS** accounting information.
+- Summarize **CPU**, **GPU**, **memory**, **runtime**, and resource-efficiency metrics.
 
 ### Results
 
-- Job efficiency summaries used to size simulation resource requests.
+- Provides compact utilization summaries for **profiling HPC jobs** and adjusting future resource requests.
 
 ### Software
 
-Python, Bash, SLURM, PBS
+Nvidia-ml-py3, NumPY, Matplotlib, Python, Bash, SLURM, PBS, GPU
 
 ### Links
 
@@ -269,41 +269,44 @@ Python, Bash, SLURM, PBS
 
 ## Project — cache-challenge-1
 
-Title: CACHE Challenge #1
+Title: CACHE Challenge #1. Team participation
 
-Short summary: Docking-guided de novo molecule generation and MD-based evaluation of hits for the WDR domain of LRRK2; the team placed third.
+Short summary: Prospective hit finding for the ligand-naive **LRRK2-WDR** domain using **de novo design**, **docking**, **molecular dynamics**, and **MM/GBSA**.
 
 Tags: CACHE, de novo design, LRRK2, docking, molecular dynamics
 
 ### Scientific problem
 
-The WDR domain of LRRK2, a Parkinson's disease associated protein, is a difficult target with no established small-molecule chemical probe, which makes prospective hit finding a genuine test of computational methods.
+**CACHE Challenge #1** asked participants to identify binders for the **WDR domain** of **LRRK2** when no known ligands and only an apo protein structure were available.
 
 ### Motivation
 
-CACHE is a blinded benchmark: participants submit predictions that are then synthesized and assayed by the organizers, so the challenge measures prospective performance rather than retrospective enrichment.
+**The blinded challenge** provided a prospective test of computational hit-finding methods because submitted compounds were purchased and experimentally measured by the organizers.
 
 ### My role
 
-- Developed and applied a docking-guided de novo molecule generation workflow using CReM-opt.
-- Performed molecular dynamics evaluation of the identified hits.
-- Co-author of the collaborative challenge publication in J. Chem. Inf. Model. (2024).
+- Developed and applied **CReM-opt** for molecular generation and local optimization.
+- Applied **StreaMD** in the **MD/MM-GBSA** part of the workflow.
+- Performed **Glide** docking and contributed to strategy discussions and analysis of the results.
+- Co-author of the collaborative CACHE publication.
 
 ### Methodology
 
-- De novo generation with CReM fragment replacement under docking guidance.
-- Docking-based prioritization of generated molecules.
-- Molecular dynamics simulations to assess the stability of predicted binding modes.
-- Cheminformatics filtering before submission.
+- **CReM-based de novo** generation and optimization of candidate molecules.
+- Physicochemical and structural filtering followed by c**onsensus docking**.
+- MD-based analysis and **MM/GBSA** rescoring of prioritized compounds.
+- **Similarity-based search of the Enamine REAL database** to retrieve commercially accessible analogs of prioritized designs.
+- Experimental testing was performed independently by the CACHE organizers.
 
 ### Results
 
-- Third place as a team, with hits carried through experimental validation by the challenge organizers.
-- Results published as part of the collaborative CACHE Challenge #1 report (2024).
+- Our Round 1 workflow produced **8 SPR binders among 82 compounds tested**; one compound of interest was additionally supported by **19F-NMR**.
+- Hit expansion produced two additional binders, with the best measured KD of 71 µM.
+- The workflow was among **the third-place teams** in the aggregated **CACHE Challenge #1** ranking.
 
 ### Software
 
-Python, RDKit, CReM, AutoDock Vina, GROMACS, MDAnalysis
+Python, RDKit, CReM, StreaMD, AutoDock Vina, Gnina, Glide, GROMACS, gmx_MMPBSA
 
 ### Links
 
@@ -313,76 +316,78 @@ Python, RDKit, CReM, AutoDock Vina, GROMACS, MDAnalysis
 
 Title: Tubulin inhibitor SAR studies
 
-Short summary: Computational chemistry support for collaborative medicinal chemistry studies on tubulin inhibitors, colchicine-site ligands, and estradiol dimers.
+Short summary: **Docking**, **molecular dynamics**, and **interaction analysis** used to interpret **experimental SAR** for tubulin-targeting compound series.
 
 Tags: molecular modeling, tubulin, protein-ligand analysis, collaboration
 
 ### Scientific problem
 
-Interpreting structure-activity relationships in tubulin-targeting series requires binding hypotheses, interaction analysis, and parameters for chemically unusual ligands.
+Understanding the experimental **SAR** of tubulin-targeting compounds required a structural explanation of how linker composition and molecular modifications affect their binding and dynamics in the colchicine-binding site.
 
 ### Motivation
 
-Computational evidence complements synthesis and cell-based assays by explaining which interactions plausibly drive the observed differences between analogues.
+The computational work was used to test plausible binding hypotheses and examine whether ligand dynamics, persistent contacts, and linker geometry could explain experimentally observed **SAR**.
 
 ### My role
 
-- Performed molecular docking, molecular dynamics simulations, and free-energy calculations for ligand series.
-- Carried out ProLIF-based protein-ligand interaction analysis across analogues.
-- Parameterized boron-containing molecules using Gaussian.
-- Co-author of four publications arising from these collaborations (2021-2025).
+- Performed **molecular docking**, **molecular dynamics** simulations, trajectory analysis, and **MM/PBSA** calculations for tubulin–ligand complexes.
+- Analyzed protein–ligand interactions with **ProLIF** and interpreted the results alongside experimental activity data.
+- Parameterized boron-containing colchicine–BODIPY ligands using **Gaussian-derived RESP charges**.
+- Co-author of four publications arising from these collaborations.
 
 ### Methodology
 
-- Ligand and protein preparation, docking, and pose inspection.
-- Molecular dynamics simulations of selected complexes.
-- Interaction fingerprint analysis and comparison across analogues.
-- Quantum-chemical parameterization of non-standard ligand chemistry.
+- Collection and analysis of docking poses generated with **AutoDock Vina**.
+- **Explicit-solvent molecular dynamics** simulations of selected complexes in **GROMACS**.
+- RMSD and frame-wise protein–ligand interaction analysis with **ProLIF**, including **water-bridge analysis**.
+- **MM/PBSA** calculations for selected compound series.
+- **Quantum-chemical derivation of partial charges** for boron-containing ligands.
 
 ### Results
 
-- Binding hypotheses and interaction analyses used in four peer-reviewed publications.
-- Computational evidence interpreted alongside synthesis and biological evaluation by collaborators.
+- Co-author of 4 publications
 
 ### Software
 
-GROMACS, AutoDock Vina, Gnina, Glide and Maestro, ProLIF, Gaussian, PyMOL, RDKit
+GROMACS, AmberTools, AutoDock Vina, ProLIF, gmx_MMPBSA, Gaussian, RDKit, PyMOL, Chimera
 
 ### Links
 
-- Colchicine-BODIPY probes (ACS Pharmacol. Transl. Sci., 2025) — https://doi.org/10.1021/acsptsci.4c00730
+- Colchicine-BODIPY Probes: Evidence for the Involvement of Intracellular Membranes in the Targeting of Colchicine to Tubulin (ACS Pharmacol. Transl. Sci., 2025) — https://doi.org/10.1021/acsptsci.4c00730
+- Click estradiol dimers with novel aromatic bridging units: synthesis and anticancer evaluation (J. Enzyme Inhib. Med. Chem., 2024) — https://doi.org/10.1080/14756366.2024.2367139
+- Triazole-based estradiol dimers prepared via CuAAC from 17α-ethinyl estradiol with five-atom linkers causing G2/M arrest and tubulin inhibition (Bioorg. Chem., 2023) — https://doi.org/10.1016/j.bioorg.2022.106334
+- Anticancer 5-arylidene-2-(4-hydroxyphenyl)aminothiazol-4(5H)-ones as tubulin inhibitors (Arch. Pharm., 2022) — https://doi.org/10.1002/ardp.202200419
 
 ## Project — easydock
 
 Title: EasyDock
 
-Short summary: Python-based AutoDock Vina workflow implemented as part of a scalable, customizable molecular docking tool.
+Short summary: Contribution to a **scalable** and **restartable** **molecular docking platform**, my contribution was focused on the **AutoDock Vina** workflow.
 
 Tags: docking, AutoDock Vina, workflow automation, Python
 
 ### Scientific problem
 
-Large docking campaigns need consistent ligand preparation, reproducible execution, and result storage that survives interruption.
+**Large docking campaigns** need consistent preparation, efficient execution, and persistent result storage so interrupted calculations can be resumed.
 
 ### Motivation
 
-EasyDock packages docking as a scriptable, restartable workflow that scales from a laptop to an HPC queue.
+**EasyDock** was developed as a scriptable docking layer that can be reused across virtual-screening and molecular-design workflows.
 
 ### My role
 
-- Implemented the Python-based AutoDock Vina workflow within the tool.
-- Co-author of the accompanying Journal of Cheminformatics publication (2023).
+- Implemented the Python-based **AutoDock Vina** workflow within **EasyDock**.
+- Co-author of the Journal of Cheminformatics publication describing the platform.
 
 ### Methodology
 
-- Automated ligand preparation and protonation handling.
-- AutoDock Vina docking execution with database-backed result storage.
-- Parallel and distributed execution on HPC schedulers.
+- Automated ligand preparation via **Meeko** and **AutoDock Vina** execution.
+- Database-backed storage of docking inputs, poses, scores, and run state.
+- Parallel execution suitable for larger docking campaigns.
 
 ### Results
 
-- Published in Journal of Cheminformatics (2023).
-- Used as the docking layer in downstream design workflows, including CReM-opt.
+- Co-author of a publication in Journal of Cheminformatics (2023).
 
 ### Software
 

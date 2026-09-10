@@ -1,16 +1,22 @@
 ---
-import { splitProjectNames } from "@utils/projectNames";
+import { splitHighlightedTerms } from "@utils/highlightTerms";
 
 interface Props {
   text: string;
 }
 
 const { text } = Astro.props;
-const segments = splitProjectNames(text);
+const segments = splitHighlightedTerms(text);
 ---
 
 {
   segments.map((segment) =>
-    segment.isProject ? <strong>{segment.text}</strong> : segment.text,
+    segment.kind ? (
+      <strong class:list={["highlight", `highlight--${segment.kind}`]}>
+        {segment.text}
+      </strong>
+    ) : (
+      segment.text
+    ),
   )
 }

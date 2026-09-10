@@ -78,11 +78,11 @@ export function parseProjectsDoc(markdown: string): Project[] {
         );
       } else if (section === "links") {
         if (/^\(none\)/i.test(item)) continue;
-        const link = item.match(/^(.*?)\s*[—–]\s*(\S+)$/);
+        const link = item.match(/^(.*?)\s*[—–]\s*(https?:\/\/\S+)$/);
         if (!link) {
-          throw new Error(
-            `PROJECTS.md (${current.slug}): expected a link line like "- GitHub — https://…", got "${item}".`,
-          );
+          // A line without a URL is a plain note, e.g. "not open-source yet".
+          current.linkNotes = [...(current.linkNotes ?? []), item];
+          continue;
         }
         const [, label, href] = link;
         if (/^github$/i.test(label)) current.githubRepository = href;

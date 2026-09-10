@@ -1,0 +1,29 @@
+---
+import { skillsCloud } from "@data/skillsCloud";
+
+/**
+ * The skills cloud: keywords from skills-cloud.md, sized by the heading each
+ * one sits under, coloured along an eight-step rainbow.
+ */
+const RAINBOW_STEPS = 8;
+
+const keywords = skillsCloud.map((keyword, index) => ({
+  ...keyword,
+  hue: (index % RAINBOW_STEPS) + 1,
+}));
+---
+
+<ul class="cloud" aria-label="Skills">
+  {
+    keywords.map((keyword) => (
+      <li
+        class:list={[
+          `cloud__item--${keyword.tier}`,
+          `cloud__hue--${keyword.hue}`,
+        ]}
+      >
+        {keyword.text}
+      </li>
+    ))
+  }
+</ul>

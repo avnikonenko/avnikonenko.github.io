@@ -19,7 +19,7 @@ const { items } = Astro.props;
         <div class="timeline__content">
           <h3>{item.role}</h3>
           <p class="organization">{item.organization}</p>
-          {item.location && <p class="muted">{item.location}</p>}
+          {item.location && <p class="organization">{item.location}</p>}
           <ul>
             {item.bullets.map((bullet) => (
               <li>

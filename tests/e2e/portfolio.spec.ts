@@ -13,16 +13,11 @@ test("landing page is the identity block only", async ({ page }) => {
   await expect(page.getByText(/Open to research, postdoctoral/)).toBeVisible();
   await expect(page.getByRole("heading", { name: "Skills" })).toHaveCount(0);
 
-  // The CV download belongs to the footer only.
-  await expect(page.getByRole("link", { name: /Download CV/i })).toHaveCount(1);
-  await expect(
-    page.locator(".site-footer").getByRole("link", { name: /Download CV/i }),
-  ).toBeVisible();
+  // The CV is reached through the nav item, not an in-page download link.
+  await expect(page.getByRole("link", { name: /Download CV/i })).toHaveCount(0);
 });
 
-test("about page carries the biography, CV link and skills", async ({
-  page,
-}) => {
+test("about page carries the biography and skills", async ({ page }) => {
   await page.goto("/about/");
   await expect(
     page.getByRole("heading", { name: "Aleksandra Ivanova" }),
@@ -40,11 +35,8 @@ test("about page carries the biography, CV link and skills", async ({
   ).toBeVisible();
   await expect(page.getByRole("heading", { name: "Skills" })).toBeVisible();
 
-  // The CV download belongs to the footer only.
-  await expect(page.getByRole("link", { name: /Download CV/i })).toHaveCount(1);
-  await expect(
-    page.locator(".site-footer").getByRole("link", { name: /Download CV/i }),
-  ).toBeVisible();
+  // The CV is reached through the nav item, not an in-page download link.
+  await expect(page.getByRole("link", { name: /Download CV/i })).toHaveCount(0);
 });
 
 test("main navigation reaches required pages", async ({ page }) => {
@@ -79,6 +71,31 @@ test("CV is reachable as a PDF from the navigation", async ({
   const response = await request.get(href as string);
   expect(response.status()).toBe(200);
   expect(response.headers()["content-type"]).toContain("application/pdf");
+});
+
+test("the CV is reachable from the nav, and from the contact page", async ({
+  page,
+}) => {
+  // Every page reaches the PDF through the nav item.
+  for (const path of ["/", "/about/", "/experience/", "/contact/"]) {
+    await page.goto(path);
+    await expect(
+      page
+        .getByRole("navigation", { name: "Primary" })
+        .getByRole("link", { name: "CV", exact: true }),
+      path,
+    ).toBeVisible();
+  }
+
+  // The footer carries no links, and only contact adds a download link.
+  await page.goto("/");
+  await expect(page.locator(".site-footer a")).toHaveCount(0);
+  await expect(page.getByRole("link", { name: /Download CV/i })).toHaveCount(0);
+
+  await page.goto("/contact/");
+  const download = page.getByRole("link", { name: /Download CV/i });
+  await expect(download).toHaveCount(1);
+  await expect(download).toHaveAttribute("href", /CV_Ivanova\.pdf$/);
 });
 
 test("the on-site CV page is gone", async ({ request }) => {

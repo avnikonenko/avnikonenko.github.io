@@ -1,9 +1,12 @@
 ---
 import ExternalLink from "@components/ExternalLink.astro";
+import Icon from "@components/Icon.astro";
+import Prose from "@components/Prose.astro";
 import TagList from "@components/TagList.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { projects } from "@data/projects";
 import type { Project } from "@data/types";
+import { stripHighlightMarkers } from "@utils/highlightTerms";
 import { withBase } from "@utils/paths";
 
 export function getStaticPaths() {
@@ -18,11 +21,12 @@ interface Props {
 }
 
 const { project } = Astro.props;
+const summary = stripHighlightMarkers(project.shortSummary);
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "SoftwareSourceCode",
   name: project.title,
-  description: project.shortSummary,
+  description: summary,
   codeRepository: project.githubRepository,
 };
 ---
@@ -30,13 +34,24 @@ const structuredData = {
 <BaseLayout
   title={project.title}
   path={`/projects/${project.slug}/`}
-  description={project.shortSummary}
+  description={summary}
   structuredData={structuredData}
 >
   <section class="page-section project-head">
-    <p class="eyebrow">Project</p>
+    <p class="eyebrow project-eyebrow">
+      <a
+        class="back-link"
+        href={withBase("/projects/")}
+        aria-label="Back to projects"
+      >
+        <Icon name="arrow-left" />
+      </a>
+      Project
+    </p>
     <h1>{project.title}</h1>
-    <p class="lede">{project.shortSummary}</p>
+    <p class="lede">
+      <Prose text={project.shortSummary} />
+    </p>
     <TagList tags={project.tags} />
     <div class="inline-actions">
       {
@@ -44,6 +59,7 @@ const structuredData = {
           <ExternalLink
             href={project.githubRepository}
             label="Code on GitHub"
+            icon="github"
           />
         )
       }
@@ -60,6 +76,7 @@ const structuredData = {
           <ExternalLink href={link.href} label={link.label} />
         ))
       }
+      {project.linkNotes?.map((note) => <span class="muted">{note}</span>)}
     </div>
   </section>
 
@@ -67,32 +84,50 @@ const structuredData = {
     <div class="detail-rows">
       <div class="detail-row">
         <h2>Scientific problem</h2>
-        <p>{project.scientificProblem}</p>
+        <p><Prose text={project.scientificProblem} /></p>
       </div>
 
       <div class="detail-row">
         <h2>Motivation</h2>
-        <p>{project.motivation}</p>
+        <p><Prose text={project.motivation} /></p>
       </div>
 
       <div class="detail-row">
         <h2>My role</h2>
         <ul>
-          {project.myRole.map((item) => <li>{item}</li>)}
+          {
+            project.myRole.map((item) => (
+              <li>
+                <Prose text={item} />
+              </li>
+            ))
+          }
         </ul>
       </div>
 
       <div class="detail-row">
         <h2>Methodology</h2>
         <ul>
-          {project.methodology.map((item) => <li>{item}</li>)}
+          {
+            project.methodology.map((item) => (
+              <li>
+                <Prose text={item} />
+              </li>
+            ))
+          }
         </ul>
       </div>
 
       <div class="detail-row">
         <h2>Results</h2>
         <ul>
-          {project.outputsOrValidation.map((item) => <li>{item}</li>)}
+          {
+            project.outputsOrValidation.map((item) => (
+              <li>
+                <Prose text={item} />
+              </li>
+            ))
+          }
         </ul>
       </div>
 

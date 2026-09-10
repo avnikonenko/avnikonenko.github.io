@@ -27,6 +27,7 @@ export interface Project {
   methodsAndTechnologies: string[];
   outputsOrValidation: string[];
   publicationLinks: LinkItem[];
+  linkNotes?: string[];
   githubRepository?: string;
   documentationLink?: string;
   conferencePresentationLink?: string;

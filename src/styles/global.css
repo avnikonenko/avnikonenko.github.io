@@ -5,9 +5,31 @@
   --text: #f5f5f5;
   --muted: #a9adb2;
   --border: #2e2e2e;
-  --accent: #ededed;
+  /* Light blue for links on the dark ground; the light theme uses #24618a. */
+  --accent: #a3c6e6;
   --deep: #ffffff;
   --deep-soft: #b6babf;
+  --tag: #7fc3b4;
+  --highlight-detail: #d9b26a;
+  /* Rainbow for the skill cloud; light hues for the dark ground. */
+  --rainbow-1: #f0928a;
+  --rainbow-2: #f0b671;
+  --rainbow-3: #ddd07a;
+  --rainbow-4: #9ad38f;
+  --rainbow-5: #7fd0d8;
+  --rainbow-6: #8fb9dd;
+  --rainbow-7: #b19cd9;
+  --rainbow-8: #e3a3c9;
+  --skill-label: #6cb0c9;
+  --skill-value: #b6babf;
+  /* Publication titles: a deeper blue than the link colour. */
+  --title: #6f93b8;
+  /* The identity line under the name on the home page. */
+  --subtitle: #9fc4c9;
+  /* Highlighted prose terms, dark mode only: lavender for method terms,
+     a darker purple for tool and project names. */
+  --highlight-method: #b19cd9;
+  --highlight-tool: #9280bd;
   --max-width: 46rem;
   --rule: 1px solid var(--border);
   font-family:
@@ -29,6 +51,22 @@
   --accent: #24618a;
   --deep: #16324f;
   --deep-soft: #35597d;
+  --tag: #2f7d6f;
+  --highlight-detail: #8a6320;
+  --rainbow-1: #9e3528;
+  --rainbow-2: #8a5a17;
+  --rainbow-3: #6d6412;
+  --rainbow-4: #2b6b33;
+  --rainbow-5: #0f5d63;
+  --rainbow-6: #24618a;
+  --rainbow-7: #5a4a8c;
+  --rainbow-8: #8a3a66;
+  --skill-label: #0d4160;
+  --skill-value: #5c666e;
+  --title: #16324f;
+  --subtitle: #1e5058;
+  --highlight-method: inherit;
+  --highlight-tool: inherit;
 }
 
 * {
@@ -138,7 +176,7 @@ code {
 }
 
 .site-header__inner,
-.site-footer__note,
+.site-footer__inner,
 .page-section {
   width: min(100% - 2.5rem, var(--max-width));
   margin-inline: auto;
@@ -227,18 +265,29 @@ code {
 .site-footer {
   margin-top: 3.5rem;
   border-top: var(--rule);
-  padding-block: 1.5rem 2.5rem;
+  padding-block: 1.5rem 0.8rem;
+}
+
+/* CV link on its own line, the site note small in the bottom-right corner. */
+.site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 1.2rem 1.5rem;
 }
 
 .site-footer__note {
+  flex: 1 0 100%;
+  margin-left: auto;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 0.75rem;
+  text-align: right;
 }
 
 /* Sections */
 
 .lede {
-  color: var(--muted);
+  color: var(--text);
   font-size: 1.05rem;
 }
 
@@ -276,12 +325,75 @@ code {
 }
 
 .identity-line {
-  color: var(--muted);
+  color: var(--subtitle);
 }
 
 .availability {
   margin-block: 1.25rem;
   max-width: 34rem;
+}
+
+/* Skills cloud: a compact rainbow keyword block. */
+.cloud {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.2rem 0.65rem;
+  width: min(100%, 30rem);
+  margin-inline: auto;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.cloud li {
+  margin-top: 0;
+  line-height: 1.3;
+}
+
+.cloud__item--1 {
+  font-size: 0.88rem;
+}
+
+.cloud__item--2 {
+  font-size: 0.76rem;
+}
+
+.cloud__item--3 {
+  font-size: 0.68rem;
+}
+
+.cloud__hue--1 {
+  color: var(--rainbow-1);
+}
+
+.cloud__hue--2 {
+  color: var(--rainbow-2);
+}
+
+.cloud__hue--3 {
+  color: var(--rainbow-3);
+}
+
+.cloud__hue--4 {
+  color: var(--rainbow-4);
+}
+
+.cloud__hue--5 {
+  color: var(--rainbow-5);
+}
+
+.cloud__hue--6 {
+  color: var(--rainbow-6);
+}
+
+.cloud__hue--7 {
+  color: var(--rainbow-7);
+}
+
+.cloud__hue--8 {
+  color: var(--rainbow-8);
 }
 
 .link-row {
@@ -383,6 +495,25 @@ code {
   gap: 0.5rem;
 }
 
+/* Arrow back to the projects list, left of the "Project" label. */
+.project-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--accent);
+}
+
+.back-link .icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  vertical-align: 0;
+}
+
 .detail-row {
   display: grid;
   grid-template-columns: 13rem minmax(0, 1fr);
@@ -391,7 +522,7 @@ code {
 }
 
 .detail-row h2 {
-  color: var(--deep);
+  color: var(--skill-label);
   font-size: 1.15rem;
   line-height: 1.4;
 }
@@ -449,6 +580,10 @@ code {
   gap: 0.2rem 0.8rem;
 }
 
+.tag-list {
+  color: var(--tag);
+}
+
 .publication-card__meta span + span::before {
   margin-right: 0.8rem;
   content: "·";
@@ -493,13 +628,13 @@ code {
 }
 
 .skill-group h3 {
-  color: var(--deep);
+  color: var(--skill-label);
   font-size: 0.95rem;
   line-height: inherit;
 }
 
 .skill-group .skill-list {
-  color: var(--deep-soft);
+  color: var(--skill-value);
   font-size: 1rem;
 }
 
@@ -509,12 +644,44 @@ code {
 }
 
 .publication-card h3 {
+  color: var(--title);
   font-weight: 600;
 }
 
 .author-self {
   color: var(--text);
   font-weight: 600;
+}
+
+.highlight {
+  font-weight: 700;
+}
+
+.highlight--method {
+  color: var(--highlight-method);
+}
+
+.highlight--tool {
+  color: var(--highlight-tool);
+}
+
+.highlight--detail {
+  color: var(--highlight-detail);
+}
+
+/* On the Selected projects list, marked details take the same colour as the
+   bold on About. */
+.project-card .highlight--detail {
+  color: var(--highlight-method);
+}
+
+/* On a project page only the details marked in PROJECTS.md carry colour — the
+   ochre — while automatically matched tool and method names stay plain bold. */
+.detail-row .highlight--tool,
+.detail-row .highlight--method,
+.lede .highlight--tool,
+.lede .highlight--method {
+  color: inherit;
 }
 
 .publication-card--highlighted h3::after {
@@ -556,7 +723,7 @@ code {
 }
 
 .organization {
-  color: var(--muted);
+  color: var(--skill-label);
 }
 
 /* Controls */

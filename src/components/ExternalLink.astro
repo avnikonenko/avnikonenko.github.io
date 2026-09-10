@@ -1,13 +1,16 @@
 ---
+import Icon from "./Icon.astro";
 import { isPlaceholder } from "@utils/paths";
+import type { IconName } from "@utils/icons";
 
 interface Props {
   href?: string;
   label?: string;
+  icon?: IconName;
   class?: string;
 }
 
-const { href = "", label, class: className } = Astro.props;
+const { href = "", label, icon, class: className } = Astro.props;
 const text = label ?? href;
 ---
 
@@ -15,7 +18,13 @@ const text = label ?? href;
   isPlaceholder(href) ? (
     <span class:list={["placeholder", className]}>{text}</span>
   ) : (
-    <a class={className} href={href} target="_blank" rel="noopener noreferrer">
+    <a
+      class:list={[className, { "icon-link": icon }]}
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {icon && <Icon name={icon} />}
       {text}
     </a>
   )

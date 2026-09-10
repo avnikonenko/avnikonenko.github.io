@@ -1,6 +1,7 @@
 ---
 import type { Project } from "@data/types";
 import { withBase } from "@utils/paths";
+import Prose from "./Prose.astro";
 import TagList from "./TagList.astro";
 
 interface Props {
@@ -15,7 +16,9 @@ const { project } = Astro.props;
     <h3>
       <a href={withBase(`/projects/${project.slug}/`)}>{project.title}</a>
     </h3>
-    <p>{project.shortSummary}</p>
+    <p>
+      <Prose text={project.shortSummary} />
+    </p>
     <TagList tags={project.tags} />
   </div>
 </article>
