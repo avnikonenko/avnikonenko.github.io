@@ -2,9 +2,26 @@ import type { ExperienceItem } from "./types";
 
 export const experience: ExperienceItem[] = [
   {
+    role: "Researcher",
+    organization:
+      "Institute of Molecular and Translational Medicine, Palacký University Olomouc",
+    location: "Olomouc, Czech Republic",
+    start: "2026",
+    end: "present",
+    field: [
+      "computational drug discovery",
+      "molecular modeling",
+      "scientific software development",
+    ],
+    bullets: [
+      "Computational drug discovery research using molecular dynamics simulations, molecular docking, binding free-energy analysis, QSAR modeling, and de novo molecular design.",
+      "Development of Python-based workflows and open-source tools for reproducible molecular modeling, including StreaMD and CReM-opt.",
+    ],
+  },
+  {
     role: "Ph.D. Researcher",
     organization:
-      "Palacký University Olomouc, Faculty of Medicine and Dentistry, Institute of Molecular and Translational Medicine",
+      "Institute of Molecular and Translational Medicine, Palacký University Olomouc",
     location: "Olomouc, Czech Republic",
     start: "2019",
     end: "2026",
@@ -12,25 +29,33 @@ export const experience: ExperienceItem[] = [
       "computational chemistry",
       "molecular and translational medicine",
       "small-molecule design",
-      "molecular modeling",
-      "scientific software development",
     ],
     bullets: [
-      "Developed and applied computational workflows for molecular dynamics simulations, molecular docking, protein-ligand interaction analysis, and endpoint binding free-energy estimation.",
-      "Worked with cheminformatics, QSAR, conformational modeling, and de novo molecular design methods for small-molecule research.",
-      "Built workflow automation for simulation setup, execution, restart handling, analysis, and reproducible reporting on local and high-performance computing systems.",
-      "Developed and maintained scientific software supporting GROMACS-based simulations, ligand preparation, multi-replica execution, ProLIF interaction analysis, and MM/GBSA or MM/PBSA calculations.",
-      "Communicated research through publications and scientific presentations, with exact citations and talk titles marked for verification in the publication and conference data.",
+      "Doctoral research on computational methods linking molecular conformation to biological activity in small-molecule design, supervised by Dr. Pavel Polishchuk.",
+      "Built workflow automation for simulation setup, execution, restart handling, analysis, and reporting on local and high-performance computing systems.",
+      "Contributed computational chemistry support to collaborative medicinal chemistry studies, resulting in co-authored publications.",
     ],
   },
   {
-    role: "Computer Scientist",
+    role: "Computer Scientist (part-time)",
     organization: "AI|ffinity s.r.o.",
-    location: "[ADD OR VERIFY: work location or remote]",
+    location: "Czech Republic",
     start: "June 2022",
     end: "December 2022",
     bullets: [
-      "[ADD OR VERIFY: concise description of responsibilities, projects, technologies, and outputs. Do not publish until confirmed.]",
+      "Curated and validated protein structure (PDB) datasets for molecular dynamics and machine-learning pipelines.",
+      "Performed molecular docking using Glide.",
+    ],
+  },
+  {
+    role: "Laboratory Assistant",
+    organization:
+      "Laboratory of Chemistry and Biochemistry, Volgograd State University",
+    location: "Volgograd, Russia",
+    start: "2017",
+    end: "2019",
+    bullets: [
+      "Supported routine experimental procedures, including sample preparation, handling of laboratory equipment, and maintenance of laboratory materials.",
     ],
   },
 ];

@@ -1,1 +1,1 @@
-Static portfolio website of Aleksandra Ivanova, built for GitHub Pages
+Portfolio website of Aleksandra Ivanova, built for GitHub Pages

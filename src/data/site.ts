@@ -4,40 +4,42 @@ export const siteConfig = {
   name: "Aleksandra Ivanova",
   title: "Computational Chemist and Scientific Software Developer",
   headline:
-    "Computational Chemist | Molecular Modeling, Cheminformatics and Scientific Software Development",
+    "Computational chemist — molecular modeling, cheminformatics, and scientific software",
   siteUrl: import.meta.env.PUBLIC_SITE_URL ?? "https://avnikonenko.github.io",
   description:
-    "Academic and scientific portfolio for Aleksandra Ivanova, a computational chemist focused on molecular modeling, cheminformatics, computer-aided drug design, and reproducible scientific software.",
-  location: "Czech Republic [ADD OR VERIFY: preferred public location]",
+    "Personal site of Aleksandra Ivanova, computational chemist working on molecular modeling, cheminformatics, computer-aided drug design, and reproducible scientific software.",
+  location: "Olomouc, Czech Republic",
   availability:
-    "Open to appropriate research, postdoctoral, pharmaceutical or biotechnology industry, and scientific-software opportunities; open for relocation [ADD OR VERIFY: availability statement].",
+    "Open to research, postdoctoral, pharmaceutical or biotechnology industry, and scientific-software roles in computational chemistry and drug discovery.",
   githubUsername: "avnikonenko",
-  emailDisplay: "[ADD OR VERIFY: professional email]",
-  emailHref: "",
+  emailDisplay: "a.ivanova.contact@gmail.com",
+  emailHref: "mailto:a.ivanova.contact@gmail.com",
   socialLinks: [
     { label: "GitHub", href: "https://github.com/avnikonenko", kind: "github" },
     {
       label: "LinkedIn",
-      href: "[ADD OR VERIFY: LinkedIn URL]",
+      href: "https://www.linkedin.com/in/aleksandra-ivanova-628974242",
       kind: "profile",
     },
     {
-      label: "Google Scholar",
-      href: "[ADD OR VERIFY: Google Scholar URL]",
+      label: "ORCID",
+      href: "https://orcid.org/0000-0002-8064-7845",
       kind: "profile",
     },
-    { label: "ORCID", href: "[ADD OR VERIFY: ORCID URL]", kind: "profile" },
+    {
+      label: "Scopus",
+      href: "https://www.scopus.com/authid/detail.uri?authorId=57889776600",
+      kind: "profile",
+    },
   ] satisfies LinkItem[],
-  cvPdf: "/Aleksandra_Ivanova_CV.pdf",
+  cvPdf: "/CV_Ivanova.pdf",
   ogImage: "/images/og-image.svg",
 };
 
 export const navigation = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about/" },
   { label: "Experience", href: "/experience/" },
   { label: "Projects", href: "/projects/" },
   { label: "Publications", href: "/publications/" },
-  { label: "CV", href: "/cv/" },
   { label: "Contact", href: "/contact/" },
+  { label: "CV (PDF)", href: siteConfig.cvPdf },
 ];

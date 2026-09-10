@@ -17,7 +17,6 @@ export interface Project {
   slug: string;
   title: string;
   shortSummary: string;
-  detailedDescription: string;
   scientificProblem: string;
   motivation: string;
   myRole: string[];
@@ -29,8 +28,6 @@ export interface Project {
   githubRepository?: string;
   documentationLink?: string;
   conferencePresentationLink?: string;
-  image?: string;
-  imageAlt?: string;
   featured: boolean;
   tags: string[];
 }
@@ -75,6 +72,7 @@ export interface EducationItem {
   start: string;
   end: string;
   thesis?: string;
+  thesisUrl?: string;
   status?: string;
   notes?: string[];
 }
@@ -82,6 +80,13 @@ export interface EducationItem {
 export interface SkillGroup {
   title: string;
   skills: string[];
+}
+
+export interface AwardItem {
+  year: string;
+  title: string;
+  organization: string;
+  note?: string;
 }
 
 export interface ConferenceItem {

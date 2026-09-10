@@ -10,6 +10,7 @@ export const publications: Publication[] = [
     authors: "Aleksandra Ivanova",
     venue: "Ph.D. thesis, Palacký University Olomouc",
     year: 2026,
+    externalUrl: "https://theses.cz/id/ux69av/",
     publicationType: "Thesis",
     summary:
       "Doctoral thesis on computational methods connecting molecular conformation and biological activity in small-molecule design.",
