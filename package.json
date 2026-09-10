@@ -12,6 +12,9 @@
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build && node scripts/generate-sitemap.mjs && node scripts/check-internal-links.mjs",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "import:publications": "node scripts/import-publications.mjs && prettier --write src/data/publications.ts",
+    "projects:docx": "node scripts/projects-to-docx.mjs",
+    "projects:from-docx": "node scripts/projects-from-docx.mjs && prettier --write PROJECTS.md",
+    "icons": "node scripts/make-icons.mjs",
     "test:e2e": "playwright test",
     "test": "npm run build && npm run test:e2e"
   },
