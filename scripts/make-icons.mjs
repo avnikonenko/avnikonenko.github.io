@@ -6,8 +6,11 @@
  *   npm run icons
  *
  * Sources (all 1254x1254):
- *   public/logo.png       -> favicon, social preview, home page logo (dark theme)
- *   public/logo-dark.png  -> home page logo, light theme
+ *   assets/logo.png       -> favicon, social preview, home page logo (dark theme)
+ *   assets/logo-dark.png  -> home page logo, light theme
+ *
+ * The full-size sources live outside public/ so they are build inputs only and
+ * are not deployed; the generated variants in public/ are what the site serves.
  *
  * Uses the Playwright browser installed for the e2e tests, so no image
  * toolchain is needed. Each source is trimmed to its visible artwork so the
@@ -19,12 +22,12 @@ import { readFile, writeFile } from "node:fs/promises";
 import { chromium } from "@playwright/test";
 
 const JOBS = [
-  { source: "public/logo.png", output: "public/icon-32.png", size: 32 },
-  { source: "public/logo.png", output: "public/icon-180.png", size: 180 },
-  { source: "public/logo.png", output: "public/icon-512.png", size: 512 },
-  { source: "public/logo.png", output: "public/logo-256.png", size: 256 },
+  { source: "assets/logo.png", output: "public/icon-32.png", size: 32 },
+  { source: "assets/logo.png", output: "public/icon-180.png", size: 180 },
+  { source: "assets/logo.png", output: "public/icon-512.png", size: 512 },
+  { source: "assets/logo.png", output: "public/logo-256.png", size: 256 },
   {
-    source: "public/logo-dark.png",
+    source: "assets/logo-dark.png",
     output: "public/logo-dark-256.png",
     size: 256,
   },
