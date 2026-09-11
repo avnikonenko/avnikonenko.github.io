@@ -50,5 +50,5 @@ export const navigation = [
   { label: "Projects", href: "/projects/" },
   { label: "Publications", href: "/publications/" },
   { label: "Contact", href: "/contact/" },
-  { label: "CV", href: siteConfig.cvPdf },
+  { label: "CV", href: siteConfig.cvPdf, asset: true },
 ];

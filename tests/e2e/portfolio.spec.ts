@@ -66,7 +66,8 @@ test("CV is reachable as a PDF from the navigation", async ({
     .getByRole("navigation", { name: "Primary" })
     .getByRole("link", { name: /^CV$/ });
   const href = await cvLink.getAttribute("href");
-  expect(href).toMatch(/CV_Ivanova\.pdf$/);
+  // The URL carries a content hash so a replaced PDF is refetched.
+  expect(href).toMatch(/CV_Ivanova\.pdf\?v=[0-9a-f]{8}$/);
 
   const response = await request.get(href as string);
   expect(response.status()).toBe(200);
@@ -95,7 +96,10 @@ test("the CV is reachable from the nav, and from the contact page", async ({
   await page.goto("/contact/");
   const download = page.getByRole("link", { name: /Download CV/i });
   await expect(download).toHaveCount(1);
-  await expect(download).toHaveAttribute("href", /CV_Ivanova\.pdf$/);
+  await expect(download).toHaveAttribute(
+    "href",
+    /CV_Ivanova\.pdf\?v=[0-9a-f]{8}$/,
+  );
 });
 
 test("the on-site CV page is gone", async ({ request }) => {

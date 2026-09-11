@@ -3,7 +3,7 @@ import Icon from "@components/Icon.astro";
 import SectionHeading from "@components/SectionHeading.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { siteConfig } from "@data/site";
-import { withBase } from "@utils/paths";
+import { versioned } from "@utils/assetVersion";
 ---
 
 <BaseLayout
@@ -35,7 +35,7 @@ import { withBase } from "@utils/paths";
       }
     </ul>
     <p class="page-section--tight">
-      <a class="icon-link" href={withBase(siteConfig.cvPdf)}>
+      <a class="icon-link" href={versioned(siteConfig.cvPdf)}>
         <Icon name="download" />
         Download CV
       </a>
