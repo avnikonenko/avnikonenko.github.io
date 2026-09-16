@@ -44,6 +44,7 @@ it parseable:
 - ABFE
 - FEP
 - PyMOL
+- CI/CD
 
 ## Small
 
