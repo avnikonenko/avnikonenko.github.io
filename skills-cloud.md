@@ -40,8 +40,9 @@ it parseable:
 - AutoDock Vina
 - Gnina
 - Glide and Maestro
-- gmx_MMPBSA
-- A3FE
+- MM-GBSA
+- ABFE
+- FEP
 - PyMOL
 
 ## Small
@@ -55,3 +56,4 @@ it parseable:
 - multiprocessing
 - code performance profiling
 - Streamlit
+- data analysis
